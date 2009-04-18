@@ -17,8 +17,6 @@
 	IBOutlet NSProgressIndicator *_progressIndicator;
 	
 @private
-	BOOL _includeSystemInformation;
-	BOOL _includeEmailAddress;
 	NSString *_emailAddress;
 	NSString *_crashLogPath;
 	NSURL *_submissionURL;
@@ -28,8 +26,6 @@
 
 // ========================================
 // Properties
-@property (assign) BOOL includeSystemInformation;
-@property (assign) BOOL includeEmailAddress;
 @property (copy) NSString * emailAddress;
 @property (copy) NSString * crashLogPath;
 @property (copy) NSURL * submissionURL;

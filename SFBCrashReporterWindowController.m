@@ -21,11 +21,20 @@
 
 @implementation SFBCrashReporterWindowController
 
-@synthesize includeSystemInformation = _includeSystemInformation;
-@synthesize includeEmailAddress = _includeEmailAddress;
 @synthesize emailAddress = _emailAddress;
 @synthesize crashLogPath = _crashLogPath;
 @synthesize submissionURL = _submissionURL;
+
++ (void) initialize
+{
+	// Register reasonable defaults for most preferences
+	NSMutableDictionary *defaultsDictionary = [NSMutableDictionary dictionary];
+	
+	[defaultsDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"SFBCrashReporterIncludeAnonymousSystemInformation"];
+	[defaultsDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"SFBCrashReporterIncludeEmailAddress"];
+		
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
+}
 
 + (void) showWindowForCrashLogPath:(NSString *)crashLogPath submissionURL:(NSURL *)submissionURL
 {
@@ -64,6 +73,9 @@
 	// Populate the e-mail field with the users primary e-mail address
 	ABMultiValue *emailAddresses = [[[ABAddressBook sharedAddressBook] me] valueForProperty:kABEmailProperty];
 	self.emailAddress = (NSString *)[emailAddresses valueForIdentifier:[emailAddresses primaryIdentifier]];
+	
+	// Select the comments text
+	[_commentsTextView setSelectedRange:NSMakeRange(0, NSUIntegerMax)];
 }
 
 // Send the report off
@@ -120,7 +132,7 @@
 	NSMutableDictionary *formValues = [NSMutableDictionary dictionary];
 	
 	// Append system information, if specified
-	if(self.includeSystemInformation) {
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"SFBCrashReporterIncludeAnonymousSystemInformation"]) {
 		SFBSystemInformation *systemInformation = [[SFBSystemInformation alloc] init];
 		
 		[formValues setObject:[systemInformation machine] forKey:@"machine"];
@@ -139,7 +151,7 @@
 	}
 	
 	// Include email address, if permitted
-	if(self.includeEmailAddress)
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"SFBCrashReporterIncludeEmailAddress"])
 		[formValues setObject:self.emailAddress forKey:@"emailAddress"];
 	
 	// The most important item of all
