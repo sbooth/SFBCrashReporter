@@ -22,6 +22,7 @@
 	NSURL *_submissionURL;
 	
 	NSURLConnection *_urlConnection;
+	NSMutableData *_responseData;
 }
 
 // ========================================
