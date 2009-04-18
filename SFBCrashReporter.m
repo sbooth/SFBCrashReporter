@@ -16,15 +16,20 @@
 {
 	// If no URL is found for the submission, we can't do anything
 	NSString *crashSubmissionURLString = [[NSUserDefaults standardUserDefaults] stringForKey:@"SFBCrashReporterCrashSubmissionURL"];
-	if(!crashSubmissionURLString)
-		return;
+	if(!crashSubmissionURLString) {
+		crashSubmissionURLString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFBCrashReporterCrashSubmissionURL"];
+		if(!crashSubmissionURLString)
+			[NSException raise:@"Missing SFBCrashReporterCrashSubmissionURL" format:@"You must specify the URL for crash log submission as the SFBCrashReporterCrashSubmissionURL in either Info.plist or the user defaults!"];
+	}
 
 	// Determine when the last crash was reported
 	NSDate *lastCrashReportDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SFBCrashReporterLastCrashReportDate"];
 	
 	// If a crash was never reported, use now as the starting point
-	if(!lastCrashReportDate)
+	if(!lastCrashReportDate) {
 		lastCrashReportDate = [NSDate date];
+		[[NSUserDefaults standardUserDefaults] setObject:lastCrashReportDate forKey:@"SFBCrashReporterLastCrashReportDate"];
+	}
 	
 	// Determine if it is even necessary to show the window (by comparing file modification dates to the last time a crash was reported)
 	NSArray *crashLogPaths = [self crashLogPaths];
