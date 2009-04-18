@@ -21,13 +21,19 @@ GenerateFormData(NSDictionary *formValues, NSString *boundary)
 		[result appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 		
 		// String value
-		if([[value class] isKindOfClass:[NSString class]]) {
+		if([value isKindOfClass:[NSString class]]) {
 			NSString *string = (NSString *)value;
 			[result appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
 			[result appendData:[[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] dataUsingEncoding:NSUTF8StringEncoding]];
 		}
+		// Number value
+		else if([value isKindOfClass:[NSNumber class]]) {
+			NSNumber *number = (NSNumber *)value;
+			[result appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+			[result appendData:[[[number stringValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] dataUsingEncoding:NSUTF8StringEncoding]];
+		}
 		// URL value (only file URLs are supported)
-		else if([[value class] isKindOfClass:[NSURL class]] && [(NSURL *)value isFileURL]) {
+		else if([value isKindOfClass:[NSURL class]] && [(NSURL *)value isFileURL]) {
 			NSURL *url = (NSURL *)value;
 			[result appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, [[url path] lastPathComponent]] dataUsingEncoding:NSUTF8StringEncoding]];
 			[result appendData:[[NSString stringWithString:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
