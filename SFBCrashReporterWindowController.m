@@ -73,6 +73,13 @@
 
 - (void) windowDidLoad
 {
+	// Set the window's title
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+	NSString *applicationVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+
+	NSString *windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter (%@ %@)", @""), applicationName, applicationVersion];
+	[[self window] setTitle:windowTitle];
+	
 	// Populate the e-mail field with the users primary e-mail address
 	ABMultiValue *emailAddresses = [[[ABAddressBook sharedAddressBook] me] valueForProperty:kABEmailProperty];
 	self.emailAddress = (NSString *)[emailAddresses valueForIdentifier:[emailAddresses primaryIdentifier]];
