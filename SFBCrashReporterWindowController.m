@@ -232,20 +232,7 @@
 - (void) showSubmissionSucceededSheet
 {
 	[_progressIndicator stopAnimation:self];
-	
-	// Use the file's modification date as the last submitted crash date
-	NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:self.crashLogPath traverseLink:YES];
-	NSDate *fileModificationDate = [fileAttributes fileModificationDate];
-	
-	[[NSUserDefaults standardUserDefaults] setObject:fileModificationDate forKey:@"SFBCrashReporterLastCrashReportDate"];
-	
-	// Delete the crash log since it is no longer needed
-	NSError *error = nil;
-	if(![[NSFileManager defaultManager] removeItemAtPath:self.crashLogPath error:&error]) {
-		[self presentError:error modalForWindow:[self window] delegate:self didPresentSelector:@selector(didPresentErrorWithRecovery:contextInfo:) contextInfo:NULL];
-		return;
-	}
-	
+		
 	NSBeginAlertSheet(NSLocalizedString(@"The crash report was succesfully submitted.", @""), nil /* Use the default button title, */, nil, nil, [self window], self, @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), NULL, NULL, NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), [self applicationName]);
 }
 
@@ -281,12 +268,23 @@
 	[_responseData release], _responseData = nil;
 	
 	if(responseOK) {
+		// Create our own instance since this method could be called from a background thread
+		NSFileManager *fileManager = [[NSFileManager alloc] init];
+		
 		// Use the file's modification date as the last submitted crash date
-		NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:self.crashLogPath traverseLink:YES];
+		NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:self.crashLogPath traverseLink:YES];
 		NSDate *fileModificationDate = [fileAttributes fileModificationDate];
 		
 		[[NSUserDefaults standardUserDefaults] setObject:fileModificationDate forKey:@"SFBCrashReporterLastCrashReportDate"];
 		
+		// Delete the crash log since it is no longer needed
+		NSError *error = nil;
+		if(![fileManager removeItemAtPath:self.crashLogPath error:&error])
+			NSLog(@"SFBCrashReporter error: Unable to delete the submitted crash log (%@): %@", [self.crashLogPath lastPathComponent], [error localizedDescription]);
+
+		[fileManager release], fileManager = nil;
+		
+		// Even though the log wasn't deleted, submission was still successful
 		[self performSelectorOnMainThread: @selector(showSubmissionSucceededSheet) withObject:nil waitUntilDone:NO];
 	}
 	// An error occurred on the server
