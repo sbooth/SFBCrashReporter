@@ -11,15 +11,15 @@ function bytes_to_human_readable_string($bytes)
 
   $string = nil;
   switch($divisions) {
-    case 1:		$string = sprintf("%1.2f bytes", $bytes); 		break;
-    case 2:		$string = sprintf("%1.2f KiB", $bytes); 		break;
-    case 3:		$string = sprintf("%1.2f MiB", $bytes); 		break;
-    case 4:		$string = sprintf("%1.2f GiB", $bytes); 		break;
-    case 5:		$string = sprintf("%1.2f TiB", $bytes); 		break;
-    case 6:		$string = sprintf("%1.2f PiB", $bytes); 		break;
-    case 7:		$string = sprintf("%1.2f EiB", $bytes); 		break;
-    case 8:		$string = sprintf("%1.2f ZiB", $bytes); 		break;
-    case 9:		$string = sprintf("%1.2f YiB", $bytes); 		break;
+    case 1:		$string = sprintf("%.2f bytes", $bytes); 	break;
+    case 2:		$string = sprintf("%.2f KiB", $bytes); 		break;
+    case 3:		$string = sprintf("%.2f MiB", $bytes); 		break;
+    case 4:		$string = sprintf("%.2f GiB", $bytes); 		break;
+    case 5:		$string = sprintf("%.2f TiB", $bytes); 		break;
+    case 6:		$string = sprintf("%.2f PiB", $bytes); 		break;
+    case 7:		$string = sprintf("%.2f EiB", $bytes); 		break;
+    case 8:		$string = sprintf("%.2f ZiB", $bytes); 		break;
+    case 9:		$string = sprintf("%.2f YiB", $bytes); 		break;
   }
 
   return $string;
@@ -36,15 +36,15 @@ function frequency_to_human_readable_string($hertz)
 
   $string = nil;
   switch($divisions) {
-    case 1:		$string = sprintf("%1.2f hertz", $hertz); 		break;
-    case 2:		$string = sprintf("%1.2f KHz", $hertz); 		break;
-    case 3:		$string = sprintf("%1.2f MHz", $hertz); 		break;
-    case 4:		$string = sprintf("%1.2f GHz", $hertz); 		break;
-    case 5:		$string = sprintf("%1.2f THz", $hertz); 		break;
-    case 6:		$string = sprintf("%1.2f PHz", $hertz); 		break;
-    case 7:		$string = sprintf("%1.2f EHZ", $hertz); 		break;
-    case 8:		$string = sprintf("%1.2f ZHz", $hertz); 		break;
-    case 9:		$string = sprintf("%1.2f YHz", $hertz); 		break;
+    case 1:		$string = sprintf("%.2f hertz", $hertz); 	break;
+    case 2:		$string = sprintf("%.2f KHz", $hertz); 		break;
+    case 3:		$string = sprintf("%.2f MHz", $hertz); 		break;
+    case 4:		$string = sprintf("%.2f GHz", $hertz); 		break;
+    case 5:		$string = sprintf("%.2f THz", $hertz); 		break;
+    case 6:		$string = sprintf("%.2f PHz", $hertz); 		break;
+    case 7:		$string = sprintf("%.2f EHZ", $hertz); 		break;
+    case 8:		$string = sprintf("%.2f ZHz", $hertz); 		break;
+    case 9:		$string = sprintf("%.2f YHz", $hertz); 		break;
   }
 
   return $string;
@@ -90,7 +90,7 @@ if($_POST[systemInformationIncluded]) {
   // Friendlier formats
   $CPUFrequencyString = frequency_to_human_readable_string($_POST['CPUFrequency']);
   $busFrequencyString = frequency_to_human_readable_string($_POST['busFrequency']);
-  $physicalMemoryString = bytes_to_human_readable_string($_POST['busFrequency']);
+  $physicalMemoryString = bytes_to_human_readable_string($_POST['physicalMemory']);
 
   $message_body .= <<<EOS
 \n
