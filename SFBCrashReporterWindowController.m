@@ -240,7 +240,7 @@
 {
 	[_progressIndicator stopAnimation:self];
 		
-	NSBeginAlertSheet(NSLocalizedString(@"The crash report was succesfully submitted.", @""), nil /* Use the default button title, */, nil, nil, [self window], self, @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), NULL, NULL, NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), [self applicationName]);
+	NSBeginAlertSheet(NSLocalizedString(@"The crash report was successfully submitted.", @""), nil /* Use the default button title, */, nil, nil, [self window], self, @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), NULL, NULL, NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), [self applicationName]);
 }
 
 - (void) showSubmissionFailedSheet:(NSError *)error
