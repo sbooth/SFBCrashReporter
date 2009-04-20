@@ -1,9 +1,59 @@
 <?php
 
+// Convert a number of bytes to a human-readable string
+function bytes_to_human_readable_string($bytes)
+{
+  $divisions = 1;
+  while(1024 < $bytes) {
+    $bytes /= 1024;
+    ++$divisions;
+  }
+
+  $string = nil;
+  switch($divisions) {
+    case 1:		$string = sprintf("%1.2f bytes", $bytes); 		break;
+    case 2:		$string = sprintf("%1.2f KiB", $bytes); 		break;
+    case 3:		$string = sprintf("%1.2f MiB", $bytes); 		break;
+    case 4:		$string = sprintf("%1.2f GiB", $bytes); 		break;
+    case 5:		$string = sprintf("%1.2f TiB", $bytes); 		break;
+    case 6:		$string = sprintf("%1.2f PiB", $bytes); 		break;
+    case 7:		$string = sprintf("%1.2f EiB", $bytes); 		break;
+    case 8:		$string = sprintf("%1.2f ZiB", $bytes); 		break;
+    case 9:		$string = sprintf("%1.2f YiB", $bytes); 		break;
+  }
+
+  return $string;
+}
+
+// Convert a frequency to a human readable string
+function frequency_to_human_readable_string($hertz)
+{
+  $divisions = 1;
+  while(1000 < $hertz) {
+    $hertz /= 1000;
+    ++$divisions;
+  }
+
+  $string = nil;
+  switch($divisions) {
+    case 1:		$string = sprintf("%1.2f hertz", $hertz); 		break;
+    case 2:		$string = sprintf("%1.2f KHz", $hertz); 		break;
+    case 3:		$string = sprintf("%1.2f MHz", $hertz); 		break;
+    case 4:		$string = sprintf("%1.2f GHz", $hertz); 		break;
+    case 5:		$string = sprintf("%1.2f THz", $hertz); 		break;
+    case 6:		$string = sprintf("%1.2f PHz", $hertz); 		break;
+    case 7:		$string = sprintf("%1.2f EHZ", $hertz); 		break;
+    case 8:		$string = sprintf("%1.2f ZHz", $hertz); 		break;
+    case 9:		$string = sprintf("%1.2f YHz", $hertz); 		break;
+  }
+
+  return $string;
+}
+
 // If this isn't a crash report redirect to the server's main page
 if($_SERVER['HTTP_USER_AGENT'] != 'SFBCrashReporter') {
-    header('Location: http://' . $_SERVER['SERVER_NAME']);
-    return;
+  header('Location: http://' . $_SERVER['SERVER_NAME']);
+  return;
 }
 
 // Use SwiftMailer to do the actual work
@@ -37,6 +87,11 @@ EOS;
 
 // Add the system information, if specified
 if($_POST[systemInformationIncluded]) {
+  // Friendlier formats
+  $CPUFrequencyString = frequency_to_human_readable_string($_POST['CPUFrequency']);
+  $busFrequencyString = frequency_to_human_readable_string($_POST['busFrequency']);
+  $physicalMemoryString = bytes_to_human_readable_string($_POST['busFrequency']);
+
   $message_body .= <<<EOS
 \n
 System Information
@@ -46,9 +101,9 @@ Machine:      {$_POST['machine']}
 Model:        {$_POST['modelName']}
 CPU Family:   {$_POST['CPUFamilyName']}
 CPUs:         {$_POST['numberOfCPUs']}
-CPU Freq:     {$_POST['CPUFrequency']}
-Memory:       {$_POST['physicalMemory']}
-Bus Freq:     {$_POST['busFrequency']}
+CPU Freq:     {$CPUFrequencyString}
+Memory:       {$physicalMemoryString}
+Bus Freq:     {$busFrequencyString}
 EOS;
 }
 
