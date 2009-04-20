@@ -54,6 +54,7 @@
 + (NSArray *) crashLogPaths
 {
 	// Leopard crash logs have the form APPNAME_YYYY-MM-DD-hhmm_MACHINE.crash and are located in ~/Library/Logs/CrashReporter
+	// See http://developer.apple.com/technotes/tn2004/tn2123.html
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	// FIXME: Would it be better to use NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask, YES) ?
 	NSString *crashLogDirectory = [@"~/Library/Logs/CrashReporter/" stringByExpandingTildeInPath];
