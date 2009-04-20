@@ -75,9 +75,9 @@
 {
 	// Set the window's title
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-	NSString *applicationVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+	NSString *applicationShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 
-	NSString *windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter (%@ %@)", @""), applicationName, applicationVersion];
+	NSString *windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@ (%@)", @""), applicationName, applicationShortVersion];
 	[[self window] setTitle:windowTitle];
 	
 	// Populate the e-mail field with the users primary e-mail address
