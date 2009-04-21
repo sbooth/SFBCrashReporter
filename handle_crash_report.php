@@ -81,7 +81,7 @@ $message_body = <<<EOS
 Application Information
 =======================
 Application:  {$_POST['applicationName']} ({$_POST['applicationIdentifier']})
-Version:      {$_POST['applicationVersion']} ({$_POST['applicationShortVersion']})
+Version:      {$_POST['applicationShortVersion']} ({$_POST['applicationVersion']})
 Date:         {$_POST['date']}
 EOS;
 
