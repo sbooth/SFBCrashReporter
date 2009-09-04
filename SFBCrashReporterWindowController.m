@@ -93,18 +93,27 @@
 // Send the report off
 - (IBAction) sendReport:(id)sender
 {
+
+#pragma unused(sender)
+
 	[self sendCrashReport];
 }
 
 // Don't do anything except dismiss our window
 - (IBAction) ignoreReport:(id)sender
 {
+
+#pragma unused(sender)
+
 	[[self window] orderOut:self];
 }
 
 // Delete the crash log since the user isn't interested in submitting it
 - (IBAction) discardReport:(id)sender
 {
+
+#pragma unused(sender)
+
 	NSError *error = nil;
 	if(![[NSFileManager defaultManager] removeItemAtPath:self.crashLogPath error:&error])
 		[self presentError:error modalForWindow:[self window] delegate:self didPresentSelector:@selector(didPresentErrorWithRecovery:contextInfo:) contextInfo:NULL];
@@ -118,12 +127,21 @@
 
 - (void) didPresentErrorWithRecovery:(BOOL)didRecover contextInfo:(void  *)contextInfo
 {
+
+#pragma unused(didRecover)
+#pragma unused(contextInfo)
+
 	// Just dismiss our window
 	[[self window] orderOut:self];
 }
 
 - (void) showSubmissionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
+
+#pragma unused(sheet)
+#pragma unused(returnCode)
+#pragma unused(contextInfo)
+
 	// Whether success or failure, all that remains is to close the window
 	[[self window] orderOut:self];
 }
@@ -228,9 +246,9 @@
 	
 	[_progressIndicator startAnimation:self];
 
-	[_reportButton setEnabled: NO];
-	[_ignoreButton setEnabled: NO];
-	[_discardButton setEnabled: NO];
+	[_reportButton setEnabled:NO];
+	[_ignoreButton setEnabled:NO];
+	[_discardButton setEnabled:NO];
 	
 	// Submit the URL request
 	_urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
@@ -256,16 +274,26 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+
+#pragma unused(connection)
+#pragma unused(response)
+
 	_responseData = [[NSMutableData alloc] init];
 }
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+
+#pragma unused(connection)
+
 	[_responseData appendData:data];
 }
 
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
+
+#pragma unused(connection)
+
 	// A valid response is simply the string 'ok'
 	NSString *responseString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
 	BOOL responseOK = [responseString isEqualToString:@"ok"];
@@ -305,6 +333,9 @@
 
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+
+#pragma unused(connection)
+
 	[_urlConnection release], _urlConnection = nil;
 	[_responseData release], _responseData = nil;
 
