@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009, 2010 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -50,8 +50,8 @@
 	
 	[windowController showWindow:self];
 
-	// Don't explicitly release the window controller- just let nature run its course
-	[windowController autorelease];
+	// The windowcontroller will be autoreleased when the windowWillClose notification is received
+	// This ensures it will be visibile for non-GC apps (if autoreleased here it is never shown)
 }
 
 // Should not be called directly by anyone except this class
@@ -86,6 +86,15 @@
 	
 	// Select the comments text
 	[_commentsTextView setSelectedRange:NSMakeRange(0, NSUIntegerMax)];
+}
+
+- (void) windowWillClose:(NSNotification *)notification
+{
+
+#pragma unused(notification)
+
+	// Ensure we don't leak memory
+	[self autorelease];
 }
 
 #pragma mark Action Methods
@@ -258,7 +267,17 @@
 {
 	[_progressIndicator stopAnimation:self];
 		
-	NSBeginAlertSheet(NSLocalizedString(@"The crash report was successfully submitted.", @""), nil /* Use the default button title, */, nil, nil, [self window], self, @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), NULL, NULL, NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), [self applicationName]);
+	NSBeginAlertSheet(NSLocalizedString(@"The crash report was successfully submitted.", @""), 
+					  nil /* Use the default button title, */, 
+					  nil, 
+					  nil, 
+					  [self window], 
+					  self, 
+					  @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), 
+					  NULL, 
+					  NULL, 
+					  NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), 
+					  [self applicationName]);
 }
 
 - (void) showSubmissionFailedSheet:(NSError *)error
@@ -267,7 +286,17 @@
 	
 	[_progressIndicator stopAnimation:self];
 	
-	NSBeginAlertSheet(NSLocalizedString(@"An error occurred while submitting the crash report.", @""), nil /* Use the default button title, */, nil, nil, [self window], self, @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), NULL, NULL, NSLocalizedString(@"The error was: %@", @""), [error localizedDescription]);
+	NSBeginAlertSheet(NSLocalizedString(@"An error occurred while submitting the crash report.", @""), 
+					  nil /* Use the default button title, */, 
+					  nil, 
+					  nil, 
+					  [self window], 
+					  self, 
+					  @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), 
+					  NULL, 
+					  NULL, 
+					  NSLocalizedString(@"The error was: %@", @""), 
+					  [error localizedDescription]);
 }
 
 #pragma mark NSURLConnection delegate methods
