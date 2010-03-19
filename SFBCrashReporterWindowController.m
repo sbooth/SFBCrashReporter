@@ -48,6 +48,7 @@
 	windowController.crashLogPath = crashLogPath;
 	windowController.submissionURL = submissionURL;
 	
+	[[windowController window] center];
 	[windowController showWindow:self];
 
 	// The windowcontroller will be autoreleased when the windowWillClose notification is received
