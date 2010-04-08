@@ -77,7 +77,10 @@
 	// Set the window's title
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	NSString *applicationShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-
+	
+	if (!applicationShortVersion)
+		applicationShortVersion = @"";
+	
 	NSString *windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@ (%@)", @""), applicationName, applicationShortVersion];
 	[[self window] setTitle:windowTitle];
 	
@@ -207,10 +210,15 @@
 	[formValues setObject:[NSURL fileURLWithPath:self.crashLogPath] forKey:@"crashLog"];
 
 	// Add the application information
-	[formValues setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"applicationName"];
-	[formValues setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] forKey:@"applicationIdentifier"];
-	[formValues setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"applicationVersion"];
-	[formValues setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forKey:@"applicationShortVersion"];
+	NSDictionary *bundleKeys = [NSDictionary dictionaryWithObjectsAndKeys:@"applicationName", @"CFBundleName", @"applicationIdentifier", @"CFBundleIdentifier", @"applicationVersion", @"CFBundleVersion", @"applicationShortVersion", @"CFBundleShortVersionString", nil];
+	NSString *bundleFieldValue;
+	
+	for (NSString *key in [bundleKeys allKeys])
+	{
+		bundleFieldValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:[bundleKeys objectForKey:key]];
+		if ([bundleFieldValue length])
+			[formValues setObject:bundleFieldValue forKey:key];
+	}
 	
 	// Create a date formatter
 	[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
