@@ -78,10 +78,12 @@
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	NSString *applicationShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	
-	if (!applicationShortVersion)
-		applicationShortVersion = @"";
-	
-	NSString *windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@ (%@)", @""), applicationName, applicationShortVersion];
+	NSString *windowTitle;
+	if(!applicationShortVersion)
+		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@", @""), applicationName];
+	else
+		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@ (%@)", @""), applicationName, applicationShortVersion];
+
 	[[self window] setTitle:windowTitle];
 	
 	// Populate the e-mail field with the users primary e-mail address
@@ -210,15 +212,21 @@
 	[formValues setObject:[NSURL fileURLWithPath:self.crashLogPath] forKey:@"crashLog"];
 
 	// Add the application information
-	NSDictionary *bundleKeys = [NSDictionary dictionaryWithObjectsAndKeys:@"applicationName", @"CFBundleName", @"applicationIdentifier", @"CFBundleIdentifier", @"applicationVersion", @"CFBundleVersion", @"applicationShortVersion", @"CFBundleShortVersionString", nil];
-	NSString *bundleFieldValue;
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+	if(applicationName)
+		[formValues setObject:applicationName forKey:@"applicationName"];
 	
-	for (NSString *key in [bundleKeys allKeys])
-	{
-		bundleFieldValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:[bundleKeys objectForKey:key]];
-		if ([bundleFieldValue length])
-			[formValues setObject:bundleFieldValue forKey:key];
-	}
+	NSString *applicationIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+	if(applicationIdentifier)
+		[formValues setObject:applicationIdentifier forKey:@"applicationIdentifier"];
+
+	NSString *applicationVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+	if(applicationVersion)
+		[formValues setObject:applicationVersion forKey:@"applicationVersion"];
+
+	NSString *applicationShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	if(applicationShortVersion)
+		[formValues setObject:applicationShortVersion forKey:@"applicationShortVersion"];
 	
 	// Create a date formatter
 	[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
