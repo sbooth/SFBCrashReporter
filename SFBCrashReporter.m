@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009, 2010 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -51,21 +51,63 @@
 
 @implementation SFBCrashReporter (Private)
 
++ (NSArray *) crashLogDirectories
+{
+	// Determine which directories contain crash logs based on the OS version
+	// See http://developer.apple.com/technotes/tn2004/tn2123.html
+
+	// Determine the OS version
+	SInt32 versionMajor = 0;
+	OSErr err = Gestalt(gestaltSystemVersionMajor, &versionMajor);
+	if(noErr != err)
+		NSLog(@"SFBCrashReporter: Unable to determine major system version (%i)", err);
+
+	SInt32 versionMinor = 0;
+	err = Gestalt(gestaltSystemVersionMinor, &versionMinor);
+	if(noErr != err)
+		NSLog(@"SFBCrashReporter: Unable to determine minor system version (%i)", err);
+	
+	NSArray *libraryPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask | NSLocalDomainMask, YES);
+	NSString *crashLogDirectory = nil;
+	
+	// Snow Leopard (10.6) or later
+	// Snow Leopard crash logs are located in ~/Library/Logs/DiagnosticReports with aliases placed in the Leopard location
+	if(10 == versionMajor && 6 <= versionMinor)
+		crashLogDirectory = @"Logs/DiagnosticReports";
+	// Leopard (10.5) or earlier
+	// Leopard crash logs have the form APPNAME_YYYY-MM-DD-hhmm_MACHINE.crash and are located in ~/Library/Logs/CrashReporter
+	else if(10 == versionMajor && 5 >= versionMinor)
+		crashLogDirectory = @"Logs/CrashReporter";
+
+	NSMutableArray *crashFolderPaths = [[NSMutableArray alloc] init];
+	
+	for(NSString *libraryPath in libraryPaths) {
+		NSString *path = [libraryPath stringByAppendingPathComponent:crashLogDirectory];
+		
+		BOOL isDir = NO;
+		if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
+			[crashFolderPaths addObject:path];
+			break;
+		}
+	}
+	
+	return [crashFolderPaths autorelease];	
+}
+
 + (NSArray *) crashLogPaths
 {
-	// Leopard crash logs have the form APPNAME_YYYY-MM-DD-hhmm_MACHINE.crash and are located in ~/Library/Logs/CrashReporter
-	// See http://developer.apple.com/technotes/tn2004/tn2123.html
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-	// FIXME: Would it be better to use NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask, YES) ?
-	NSString *crashLogDirectory = [@"~/Library/Logs/CrashReporter/" stringByExpandingTildeInPath];
+	NSArray *crashLogDirectories = [self crashLogDirectories];
 
 	NSMutableArray *paths = [[NSMutableArray alloc] init];
 
-	NSString *file = nil;
-	NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:crashLogDirectory];
-	while((file = [dirEnum nextObject]))
-		if([file hasPrefix:applicationName])
-			[paths addObject:[crashLogDirectory stringByAppendingPathComponent:file]];
+	for(NSString *crashLogDirectory in crashLogDirectories) {
+		NSString *file = nil;
+		NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:crashLogDirectory];
+		while((file = [dirEnum nextObject]))
+			if([file hasPrefix:applicationName])
+				[paths addObject:[crashLogDirectory stringByAppendingPathComponent:file]];
+	}
 	
 	return [paths autorelease];
 }
