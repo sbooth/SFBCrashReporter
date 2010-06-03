@@ -10,7 +10,6 @@
 #import <AddressBook/AddressBook.h>
 
 @interface SFBCrashReporterWindowController (Callbacks)
-- (void) didPresentErrorWithRecovery:(BOOL)didRecover contextInfo:(void  *)contextInfo;
 - (void) showSubmissionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
@@ -123,32 +122,31 @@
 	[[self window] orderOut:self];
 }
 
-// Delete the crash log since the user isn't interested in submitting it
+// Move the crash log to the trash since the user isn't interested in submitting it
 - (IBAction) discardReport:(id)sender
 {
 
 #pragma unused(sender)
 
-	NSError *error = nil;
-	if(![[NSFileManager defaultManager] removeItemAtPath:self.crashLogPath error:&error])
-		[self presentError:error modalForWindow:[self window] delegate:self didPresentSelector:@selector(didPresentErrorWithRecovery:contextInfo:) contextInfo:NULL];
-	else
-		[[self window] orderOut:self];
+	// Note: it is odd to use UTF8String here instead of fileSystemRepresentation, but FSPathMakeRef is explicitly
+	// documented to take an UTF-8 C string
+	FSRef ref;
+	OSStatus err = FSPathMakeRef((const UInt8 *)[self.crashLogPath UTF8String], &ref, NULL);
+	if(noErr != err) {
+		NSLog(@"SFBCrashReporter: Unable to create FSRef for file %@", self.crashLogPath);
+		return;
+	}
+
+	err = FSMoveObjectToTrashSync(&ref, NULL, kFSFileOperationDefaultOptions);
+	if(noErr != err)
+		NSLog(@"SFBCrashReporter: Unable to move %@ to trash: %i", self.crashLogPath, err);
+
+	[[self window] orderOut:self];
 }
 
 @end
 
 @implementation SFBCrashReporterWindowController (Callbacks)
-
-- (void) didPresentErrorWithRecovery:(BOOL)didRecover contextInfo:(void  *)contextInfo
-{
-
-#pragma unused(didRecover)
-#pragma unused(contextInfo)
-
-	// Just dismiss our window
-	[[self window] orderOut:self];
-}
 
 - (void) showSubmissionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
