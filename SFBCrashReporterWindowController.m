@@ -50,8 +50,7 @@
 	[[windowController window] center];
 	[windowController showWindow:self];
 
-	// The windowcontroller will be autoreleased when the windowWillClose notification is received
-	// This ensures it will be visibile for non-GC apps (if autoreleased here it is never shown)
+	[windowController release], windowController = nil;
 }
 
 // Should not be called directly by anyone except this class
@@ -73,6 +72,8 @@
 
 - (void) windowDidLoad
 {
+	[self retain];
+
 	// Set the window's title
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	NSString *applicationShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
