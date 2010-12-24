@@ -327,6 +327,20 @@
 					  [error localizedDescription]);
 }
 
+#pragma mark NSTextView delegate methods
+
+- (BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
+{
+    if (commandSelector == @selector(insertTab:)) {
+        [[textView window] selectNextKeyView:self];
+        return YES;
+    } else if (commandSelector == @selector(insertBacktab:)) {
+        [[textView window] selectPreviousKeyView:self];
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark NSURLConnection delegate methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
