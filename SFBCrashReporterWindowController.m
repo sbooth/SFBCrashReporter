@@ -80,9 +80,9 @@
 	
 	NSString *windowTitle;
 	if(!applicationShortVersion)
-		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@", @""), applicationName];
+		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter: %@", @""), applicationName];
 	else
-		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@ (%@)", @""), applicationName, applicationShortVersion];
+		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter: %@ (%@)", @""), applicationName, applicationShortVersion];
 
 	[[self window] setTitle:windowTitle];
 	
