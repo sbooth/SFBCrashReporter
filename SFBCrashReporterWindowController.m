@@ -50,6 +50,9 @@
 	[[windowController window] center];
 	[windowController showWindow:self];
 
+    ProcessSerialNumber currentProcess = {0, kCurrentProcess};
+    SetFrontProcessWithOptions(&currentProcess, kSetFrontProcessFrontWindowOnly);
+
 	[windowController release], windowController = nil;
 }
 
