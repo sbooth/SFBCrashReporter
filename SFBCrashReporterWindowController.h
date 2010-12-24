@@ -11,6 +11,7 @@
 @interface SFBCrashReporterWindowController : NSWindowController
 {
 	IBOutlet NSTextView *_commentsTextView;
+    IBOutlet NSComboBox *_emailAddressesComboBox;
 	IBOutlet NSButton *_reportButton;
 	IBOutlet NSButton *_ignoreButton;
 	IBOutlet NSButton *_discardButton;
@@ -18,6 +19,7 @@
 	
 @private
 	NSString *_emailAddress;
+    NSMutableArray *_emailAddresses;
 	NSString *_crashLogPath;
 	NSURL *_submissionURL;
 	

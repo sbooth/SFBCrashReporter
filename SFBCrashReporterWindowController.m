@@ -89,8 +89,10 @@
 
 	[[self window] setTitle:windowTitle];
 	
-	// Populate the e-mail field with the users primary e-mail address
+	// Populate the e-mail field with the user's primary e-mail address
 	ABMultiValue *emailAddresses = [[[ABAddressBook sharedAddressBook] me] valueForProperty:kABEmailProperty];
+    for (NSUInteger i = 0 ; i < [emailAddresses count] ; i++)
+        [_emailAddressesComboBox addItemWithObjectValue:[emailAddresses valueAtIndex:i]];
 	self.emailAddress = (NSString *)[emailAddresses valueForIdentifier:[emailAddresses primaryIdentifier]];
 	
 	// Select the comments text
