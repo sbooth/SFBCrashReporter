@@ -329,21 +329,23 @@
 
 #pragma mark NSTextView delegate methods
 
-- (BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
+- (BOOL) textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
 {
-    if (commandSelector == @selector(insertTab:)) {
+    if(commandSelector == @selector(insertTab:)) {
         [[textView window] selectNextKeyView:self];
         return YES;
-    } else if (commandSelector == @selector(insertBacktab:)) {
+    }
+	else if(commandSelector == @selector(insertBacktab:)) {
         [[textView window] selectPreviousKeyView:self];
         return YES;
     }
+
     return NO;
 }
 
 #pragma mark NSURLConnection delegate methods
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 
 #pragma unused(connection)
@@ -360,7 +362,7 @@
 	[_responseData appendData:data];
 }
 
--(void) connectionDidFinishLoading:(NSURLConnection *)connection
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
 
 #pragma unused(connection)
@@ -402,7 +404,7 @@
 	}
 }
 
--(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 
 #pragma unused(connection)
