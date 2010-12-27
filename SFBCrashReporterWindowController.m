@@ -80,9 +80,9 @@
 	
 	NSString *windowTitle;
 	if(!applicationShortVersion)
-		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@", @""), applicationName];
+		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter: %@", @""), applicationName];
 	else
-		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter - %@ (%@)", @""), applicationName, applicationShortVersion];
+		windowTitle = [NSString stringWithFormat:NSLocalizedString(@"Crash Reporter: %@ (%@)", @""), applicationName, applicationShortVersion];
 
 	[[self window] setTitle:windowTitle];
 	
@@ -92,6 +92,10 @@
 	
 	// Select the comments text
 	[_commentsTextView setSelectedRange:NSMakeRange(0, NSUIntegerMax)];
+
+    // Set the comments font (if we don't do this, it'll reset back to the application font after the placeholder text is deleted)
+    [_commentsTextView setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+
 }
 
 - (void) windowWillClose:(NSNotification *)notification
