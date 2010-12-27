@@ -86,16 +86,15 @@
 
 	[[self window] setTitle:windowTitle];
 	
-	// Populate the e-mail field with the users primary e-mail address
+	// Populate the e-mail field with the user's primary e-mail address
 	ABMultiValue *emailAddresses = [[[ABAddressBook sharedAddressBook] me] valueForProperty:kABEmailProperty];
 	self.emailAddress = (NSString *)[emailAddresses valueForIdentifier:[emailAddresses primaryIdentifier]];
-	
+
+	// Set the font for the comments
+	[_commentsTextView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:10.0] forKey:NSFontAttributeName]];
+
 	// Select the comments text
 	[_commentsTextView setSelectedRange:NSMakeRange(0, NSUIntegerMax)];
-
-    // Set the comments font (if we don't do this, it'll reset back to the application font after the placeholder text is deleted)
-    [_commentsTextView setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
-
 }
 
 - (void) windowWillClose:(NSNotification *)notification
