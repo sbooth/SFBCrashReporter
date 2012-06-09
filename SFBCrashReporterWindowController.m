@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009, 2010 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -383,11 +383,12 @@
 		NSFileManager *fileManager = [[NSFileManager alloc] init];
 		
 		// Use the file's modification date as the last submitted crash date
-		NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:self.crashLogPath traverseLink:YES];
+		NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:self.crashLogPath error:nil];
 		NSDate *fileModificationDate = [fileAttributes fileModificationDate];
-		
-		[[NSUserDefaults standardUserDefaults] setObject:fileModificationDate forKey:@"SFBCrashReporterLastCrashReportDate"];
-		
+
+		if(fileModificationDate)
+			[[NSUserDefaults standardUserDefaults] setObject:fileModificationDate forKey:@"SFBCrashReporterLastCrashReportDate"];
+
 		// Delete the crash log since it is no longer needed
 		NSError *error = nil;
 		if(![fileManager removeItemAtPath:self.crashLogPath error:&error])

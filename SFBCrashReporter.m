@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009, 2010 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -34,11 +34,11 @@
 	// Determine if it is even necessary to show the window (by comparing file modification dates to the last time a crash was reported)
 	NSArray *crashLogPaths = [self crashLogPaths];
 	for(NSString *path in crashLogPaths) {
-		NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES];
+		NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
 		NSDate *fileModificationDate = [fileAttributes fileModificationDate];
 		
 		// If the last time a crash was reported is earlier than the file's modification date, allow the user to report the crash
-		if(NSOrderedAscending == [lastCrashReportDate compare:fileModificationDate]) {
+		if(fileModificationDate && NSOrderedAscending == [lastCrashReportDate compare:fileModificationDate]) {
 			[SFBCrashReporterWindowController showWindowForCrashLogPath:path submissionURL:[NSURL URLWithString:crashSubmissionURLString]];
 			
 			// Don't prompt more than once
