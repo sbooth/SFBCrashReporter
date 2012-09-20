@@ -223,8 +223,6 @@
 			[formValues setObject:value forKey:@"systemBuildVersion"];
 
 		[formValues setObject:[NSNumber numberWithBool:YES] forKey:@"systemInformationIncluded"];
-
-		systemInformation = nil;
 	}
 	else
 		[formValues setObject:[NSNumber numberWithBool:NO] forKey:@"systemInformationIncluded"];
@@ -280,9 +278,6 @@
 	// Include the date and time
 	[formValues setObject:[dateFormatter stringFromDate:[NSDate date]] forKey:@"date"];
 		
-	localeToUse = nil;
-	dateFormatter = nil;
-	
 	// Generate the form data
 	NSString *boundary = @"81e29ba4f957efe5916039f587fe3ed7";
 	NSData *formData = GenerateFormData(formValues, boundary);
