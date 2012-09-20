@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -9,27 +9,21 @@
 // The main class for SFBCrashReporter
 // ========================================
 @interface SFBCrashReporterWindowController : NSWindowController
-{
-	IBOutlet NSTextView *_commentsTextView;
-	IBOutlet NSButton *_reportButton;
-	IBOutlet NSButton *_ignoreButton;
-	IBOutlet NSButton *_discardButton;
-	IBOutlet NSProgressIndicator *_progressIndicator;
-	
-@private
-	NSString *_emailAddress;
-	NSString *_crashLogPath;
-	NSURL *_submissionURL;
-	
-	NSURLConnection *_urlConnection;
-	NSMutableData *_responseData;
-}
+{}
 
 // ========================================
 // Properties
-@property (copy) NSString * emailAddress;
-@property (copy) NSString * crashLogPath;
-@property (copy) NSURL * submissionURL;
+@property (nonatomic, strong) NSString * emailAddress;
+@property (nonatomic, strong) NSString * crashLogPath;
+@property (nonatomic, strong) NSURL * submissionURL;
+
+// ========================================
+// IB Outlets
+@property (nonatomic, assign) IBOutlet NSTextView * commentsTextView; // weak property type not available for NSTextView
+@property (nonatomic, weak) IBOutlet NSButton * reportButton;
+@property (nonatomic, weak) IBOutlet NSButton * ignoreButton;
+@property (nonatomic, weak) IBOutlet NSButton * discardButton;
+@property (nonatomic, weak) IBOutlet NSProgressIndicator * progressIndicator;
 
 // ========================================
 // Always use this to show the window- do not alloc/init directly

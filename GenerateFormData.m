@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -53,5 +53,5 @@ GenerateFormData(NSDictionary *formValues, NSString *boundary)
 	
 	[result appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSASCIIStringEncoding]];
 	
-	return [result autorelease];
+	return result;
 }

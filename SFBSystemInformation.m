@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -50,7 +50,7 @@ static NSString * stringForMIB(int *mib, u_int mib_length, NSError **error)
 		return nil;
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 static NSNumber * intForMIB(int *mib, u_int mib_length, NSError **error)
@@ -123,6 +123,18 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 
 @implementation SFBSystemInformation
 
++ (SFBSystemInformation *) instance
+{
+	static dispatch_once_t pred = 0;
+	static SFBSystemInformation *sharedInstance = nil;
+
+	dispatch_once(&pred, ^{
+		sharedInstance = [[SFBSystemInformation alloc] init];
+	});
+
+	return sharedInstance;
+}
+
 - (NSString *) machine
 {
 	int mib [] = { CTL_HW, HW_MACHINE };
@@ -133,24 +145,6 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 {
 	int mib [] = { CTL_HW, HW_MODEL };
 	return stringForMIB(mib, 2, NULL);
-}
-
-- (NSString *) modelName
-{
-	NSString *model = [self model];
-	NSString *path = [[NSBundle bundleWithIdentifier:@"org.sbooth.CrashReporter"] pathForResource:@"Macintosh Models" ofType:@"plist"];
-	if(model && path) {
-		NSDictionary *models = [NSDictionary dictionaryWithContentsOfFile:path];
-		return [models objectForKey:model];
-	}
-	else
-		return nil;
-}
-
-- (NSNumber *) numberOfCPUs
-{
-	int mib [] = { CTL_HW, HW_NCPU };
-	return intForMIB(mib, 2, NULL);
 }
 
 - (NSNumber *) physicalMemory
@@ -174,25 +168,30 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 	return int32ForSysctlName("hw.cpufamily", NULL);
 }
 
-- (NSString *) CPUFamilyName
+- (NSNumber *) CPUType
 {
-	NSString *familyName = nil;
-	switch([[self CPUFamily] intValue]) {
-		case CPUFAMILY_POWERPC_G3:		familyName = NSLocalizedString(@"PowerPC G3", @"");					break;
-		case CPUFAMILY_POWERPC_G4:		familyName = NSLocalizedString(@"PowerPC G4", @"");					break;
-		case CPUFAMILY_POWERPC_G5:		familyName = NSLocalizedString(@"PowerPC G5", @"");					break;
-		case CPUFAMILY_INTEL_6_13:		familyName = NSLocalizedString(@"Intel Core", @"");					break;
-		case CPUFAMILY_INTEL_6_14:		familyName = NSLocalizedString(@"Intel Core (Yonah)", @"");			break;
-		case CPUFAMILY_INTEL_6_15:		familyName = NSLocalizedString(@"Intel Core 2 (Merom)", @"");		break;
-		case CPUFAMILY_INTEL_6_23:		familyName = NSLocalizedString(@"Intel Core 2 (Penryn)", @"");		break;
-		case CPUFAMILY_INTEL_6_26:		familyName = NSLocalizedString(@"Intel Xeon (Nehalem)", @"");		break;
-		case CPUFAMILY_ARM_9:			familyName = NSLocalizedString(@"ARM 9", @"");						break;
-		case CPUFAMILY_ARM_11:			familyName = NSLocalizedString(@"ARM 11", @"");						break;
+	return int32ForSysctlName("hw.cputype", NULL);
+}
 
-		default:						familyName = nil;													break;
-	}
+- (NSNumber *) CPUSubtype
+{
+	return int32ForSysctlName("hw.cpusubtype", NULL);
+}
 
-	return [[familyName retain] autorelease];
+- (NSNumber *) numberOfCPUs
+{
+	int mib [] = { CTL_HW, HW_NCPU };
+	return intForMIB(mib, 2, NULL);
+}
+
+- (NSNumber *) physicalCPUs
+{
+	return int32ForSysctlName("hw.physicalcpu", NULL);
+}
+
+- (NSNumber *) logicalCPUs
+{
+	return int32ForSysctlName("hw.logicalcpu", NULL);
 }
 
 - (NSString *) systemVersion

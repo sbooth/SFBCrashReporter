@@ -9,6 +9,25 @@
 
 #import <AddressBook/AddressBook.h>
 
+#define USE_NSTEXTVIEW_PRIVATE_API 1
+#if USE_NSTEXTVIEW_PRIVATE_API
+@interface NSTextView (ApplePrivate)
+- (void) setPlaceholderString:(NSString *)placeholder;
+@end
+#endif
+
+@interface SFBCrashReporterWindowController ()
+{
+@private
+	NSURLConnection *_urlConnection;
+	NSMutableData *_responseData;
+}
+
+// Keep a strong reference to self so ARC doesn't release the window before it's shown
+@property (nonatomic, strong) id self_reference;
+
+@end
+
 @interface SFBCrashReporterWindowController (Callbacks)
 - (void) showSubmissionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
@@ -22,9 +41,9 @@
 
 @implementation SFBCrashReporterWindowController
 
-@synthesize emailAddress = _emailAddress;
-@synthesize crashLogPath = _crashLogPath;
-@synthesize submissionURL = _submissionURL;
+@synthesize emailAddress, crashLogPath, submissionURL;
+@synthesize commentsTextView, reportButton, discardButton, ignoreButton, progressIndicator;
+@synthesize self_reference;
 
 + (void) initialize
 {
@@ -32,7 +51,7 @@
 	NSMutableDictionary *defaultsDictionary = [NSMutableDictionary dictionary];
 	
 	[defaultsDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"SFBCrashReporterIncludeAnonymousSystemInformation"];
-	[defaultsDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"SFBCrashReporterIncludeEmailAddress"];
+	[defaultsDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"SFBCrashReporterIncludeEmailAddress"];
 		
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 }
@@ -50,7 +69,7 @@
 	[[windowController window] center];
 	[windowController showWindow:self];
 
-	[windowController release], windowController = nil;
+	windowController.self_reference = windowController;
 }
 
 // Should not be called directly by anyone except this class
@@ -59,21 +78,8 @@
 	return [super initWithWindowNibName:@"SFBCrashReporterWindow" owner:self];
 }
 
-- (void) dealloc
-{
-	[_emailAddress release], _emailAddress = nil;
-	[_crashLogPath release], _crashLogPath = nil;
-	[_submissionURL release], _submissionURL = nil;
-	[_urlConnection release], _urlConnection = nil;
-	[_responseData release], _responseData = nil;
-
-	[super dealloc];
-}
-
 - (void) windowDidLoad
 {
-	[self retain];
-
 	// Set the window's title
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	NSString *applicationShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -91,10 +97,13 @@
 	self.emailAddress = (NSString *)[emailAddresses valueForIdentifier:[emailAddresses primaryIdentifier]];
 
 	// Set the font for the comments
-	[_commentsTextView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:10.0] forKey:NSFontAttributeName]];
+	[self.commentsTextView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:10.0] forKey:NSFontAttributeName]];
 
-	// Select the comments text
-	[_commentsTextView setSelectedRange:NSMakeRange(0, NSUIntegerMax)];
+#if USE_NSTEXTVIEW_PRIVATE_API
+	// Private API for placeholder strings in NSTextView
+	if([self.commentsTextView respondsToSelector:@selector(setPlaceholderString:)])
+		[self.commentsTextView setPlaceholderString:NSLocalizedString(@"Please enter a description of the actions leading up to the crash.", @"")];
+#endif
 }
 
 - (void) windowWillClose:(NSNotification *)notification
@@ -103,7 +112,7 @@
 #pragma unused(notification)
 
 	// Ensure we don't leak memory
-	[self autorelease];
+	self.self_reference = nil;
 }
 
 #pragma mark Action Methods
@@ -131,6 +140,9 @@
 {
 
 #pragma unused(sender)
+
+	// In 10.8 use:
+//	[[NSFileManager defaultManager] trashItemAtURL:[NSURL fileURLWithPath:self.crashLogPath] resultingItemURL:NULL error:NULL];
 
 	// Note: it is odd to use UTF8String here instead of fileSystemRepresentation, but FSPathMakeRef is explicitly
 	// documented to take an UTF-8 C string
@@ -189,18 +201,22 @@
 			[formValues setObject:value forKey:@"model"];
 		if((value = [systemInformation physicalMemory]))
 			[formValues setObject:value forKey:@"physicalMemory"];
-		if((value = [systemInformation numberOfCPUs]))
-			[formValues setObject:value forKey:@"numberOfCPUs"];
 		if((value = [systemInformation busFrequency]))
 			[formValues setObject:value forKey:@"busFrequency"];
 		if((value = [systemInformation CPUFrequency]))
 			[formValues setObject:value forKey:@"CPUFrequency"];
 		if((value = [systemInformation CPUFamily]))
 			[formValues setObject:value forKey:@"CPUFamily"];
-		if((value = [systemInformation modelName]))
-			[formValues setObject:value forKey:@"modelName"];
-		if((value = [systemInformation CPUFamilyName]))
-			[formValues setObject:value forKey:@"CPUFamilyName"];
+		if((value = [systemInformation CPUType]))
+			[formValues setObject:value forKey:@"CPUType"];
+		if((value = [systemInformation CPUSubtype]))
+			[formValues setObject:value forKey:@"CPUSubtype"];
+		if((value = [systemInformation numberOfCPUs]))
+			[formValues setObject:value forKey:@"numberOfCPUs"];
+		if((value = [systemInformation physicalCPUs]))
+			[formValues setObject:value forKey:@"physicalCPUs"];
+		if((value = [systemInformation logicalCPUs]))
+			[formValues setObject:value forKey:@"logicalCPUs"];
 		if((value = [systemInformation systemVersion]))
 			[formValues setObject:value forKey:@"systemVersion"];
 		if((value = [systemInformation systemBuildVersion]))
@@ -208,7 +224,7 @@
 
 		[formValues setObject:[NSNumber numberWithBool:YES] forKey:@"systemInformationIncluded"];
 
-		[systemInformation release], systemInformation = nil;
+		systemInformation = nil;
 	}
 	else
 		[formValues setObject:[NSNumber numberWithBool:NO] forKey:@"systemInformationIncluded"];
@@ -218,7 +234,7 @@
 		[formValues setObject:self.emailAddress forKey:@"emailAddress"];
 	
 	// Optional comments
-	NSAttributedString *attributedComments = [_commentsTextView attributedSubstringFromRange:NSMakeRange(0, NSUIntegerMax)];
+	NSAttributedString *attributedComments = [self.commentsTextView attributedSubstringFromRange:NSMakeRange(0, NSUIntegerMax)];
 	if([[attributedComments string] length])
 		[formValues setObject:[attributedComments string] forKey:@"comments"];
 	
@@ -264,11 +280,11 @@
 	// Include the date and time
 	[formValues setObject:[dateFormatter stringFromDate:[NSDate date]] forKey:@"date"];
 		
-	[localeToUse release], localeToUse = nil;
-	[dateFormatter release], dateFormatter = nil;
+	localeToUse = nil;
+	dateFormatter = nil;
 	
 	// Generate the form data
-	NSString *boundary = @"0xKhTmLbOuNdArY";
+	NSString *boundary = @"81e29ba4f957efe5916039f587fe3ed7";
 	NSData *formData = GenerateFormData(formValues, boundary);
 	
 	// Set up the HTTP request
@@ -278,17 +294,17 @@
 
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
 	[urlRequest setValue:contentType forHTTPHeaderField:@"Content-Type"];
-	
+
 	[urlRequest setValue:@"SFBCrashReporter" forHTTPHeaderField:@"User-Agent"];
 	[urlRequest setValue:[NSString stringWithFormat:@"%lu", [formData length]] forHTTPHeaderField:@"Content-Length"];
 
 	[urlRequest setHTTPBody:formData];
 	
-	[_progressIndicator startAnimation:self];
+	[self.progressIndicator startAnimation:self];
 
-	[_reportButton setEnabled:NO];
-	[_ignoreButton setEnabled:NO];
-	[_discardButton setEnabled:NO];
+	[self.reportButton setEnabled:NO];
+	[self.ignoreButton setEnabled:NO];
+	[self.discardButton setEnabled:NO];
 	
 	// Submit the URL request
 	_urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
@@ -296,7 +312,7 @@
 
 - (void) showSubmissionSucceededSheet
 {
-	[_progressIndicator stopAnimation:self];
+	[self.progressIndicator stopAnimation:self];
 		
 	NSBeginAlertSheet(NSLocalizedString(@"The crash report was successfully submitted.", @""), 
 					  nil /* Use the default button title, */, 
@@ -314,8 +330,8 @@
 - (void) showSubmissionFailedSheet:(NSError *)error
 {
 	NSParameterAssert(nil != error);
-	
-	[_progressIndicator stopAnimation:self];
+
+	[self.progressIndicator stopAnimation:self];
 	
 	NSBeginAlertSheet(NSLocalizedString(@"An error occurred while submitting the crash report.", @""), 
 					  nil /* Use the default button title, */, 
@@ -374,9 +390,8 @@
 	NSString *responseString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
 	BOOL responseOK = [responseString isEqualToString:@"ok"];
 
-	[responseString release], responseString = nil;
-	[_urlConnection release], _urlConnection = nil;
-	[_responseData release], _responseData = nil;
+	_urlConnection = nil;
+	_responseData = nil;
 	
 	if(responseOK) {
 		// Create our own instance since this method could be called from a background thread
@@ -394,8 +409,6 @@
 		if(![fileManager removeItemAtPath:self.crashLogPath error:&error])
 			NSLog(@"SFBCrashReporter error: Unable to delete the submitted crash log (%@): %@", [self.crashLogPath lastPathComponent], [error localizedDescription]);
 
-		[fileManager release], fileManager = nil;
-		
 		// Even though the log wasn't deleted, submission was still successful
 		[self performSelectorOnMainThread: @selector(showSubmissionSucceededSheet) withObject:nil waitUntilDone:NO];
 	}
@@ -413,8 +426,8 @@
 
 #pragma unused(connection)
 
-	[_urlConnection release], _urlConnection = nil;
-	[_responseData release], _responseData = nil;
+	_urlConnection = nil;
+	_responseData = nil;
 
 	[self performSelectorOnMainThread:@selector(showSubmissionFailedSheet:) withObject:error waitUntilDone:NO];
 }

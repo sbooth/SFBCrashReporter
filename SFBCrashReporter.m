@@ -7,6 +7,7 @@
 #import "SFBCrashReporterWindowController.h"
 
 @interface SFBCrashReporter (Private)
++ (NSArray *) crashLogDirectories;
 + (NSArray *) crashLogPaths;
 @end
 
@@ -53,34 +54,12 @@
 
 + (NSArray *) crashLogDirectories
 {
-	// Determine which directories contain crash logs based on the OS version
-	// See http://developer.apple.com/technotes/tn2004/tn2123.html
-
-	// Determine the OS version
-	SInt32 versionMajor = 0;
-	OSErr err = Gestalt(gestaltSystemVersionMajor, &versionMajor);
-	if(noErr != err)
-		NSLog(@"SFBCrashReporter: Unable to determine major system version (%i)", err);
-
-	SInt32 versionMinor = 0;
-	err = Gestalt(gestaltSystemVersionMinor, &versionMinor);
-	if(noErr != err)
-		NSLog(@"SFBCrashReporter: Unable to determine minor system version (%i)", err);
-	
-	NSArray *libraryPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask | NSLocalDomainMask, YES);
-	NSString *crashLogDirectory = nil;
-	
-	// Snow Leopard (10.6) or later
-	// Snow Leopard crash logs are located in ~/Library/Logs/DiagnosticReports with aliases placed in the Leopard location
-	if(10 == versionMajor && 6 <= versionMinor)
-		crashLogDirectory = @"Logs/DiagnosticReports";
-	// Leopard (10.5) or earlier
-	// Leopard crash logs have the form APPNAME_YYYY-MM-DD-hhmm_MACHINE.crash and are located in ~/Library/Logs/CrashReporter
-	else if(10 == versionMajor && 5 >= versionMinor)
-		crashLogDirectory = @"Logs/CrashReporter";
+	// Snow Leopard crash logs are located in ~/Library/Logs/DiagnosticReports
+	NSString *crashLogDirectory = @"Logs/DiagnosticReports";
 
 	NSMutableArray *crashFolderPaths = [[NSMutableArray alloc] init];
 	
+	NSArray *libraryPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask | NSLocalDomainMask, YES);
 	for(NSString *libraryPath in libraryPaths) {
 		NSString *path = [libraryPath stringByAppendingPathComponent:crashLogDirectory];
 		
@@ -91,7 +70,7 @@
 		}
 	}
 	
-	return [crashFolderPaths autorelease];	
+	return crashFolderPaths;	
 }
 
 + (NSArray *) crashLogPaths
@@ -109,7 +88,7 @@
 				[paths addObject:[crashLogDirectory stringByAppendingPathComponent:file]];
 	}
 	
-	return [paths autorelease];
+	return paths;
 }
 
 @end

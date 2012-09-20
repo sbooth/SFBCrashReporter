@@ -13,7 +13,6 @@
 		326557C60F980F2400403217 /* SFBCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 326557C40F980F2400403217 /* SFBCrashReporter.m */; };
 		3265585F0F9847BF00403217 /* GenerateFormData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3265585D0F9847BF00403217 /* GenerateFormData.h */; };
 		326558600F9847BF00403217 /* GenerateFormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3265585E0F9847BF00403217 /* GenerateFormData.m */; };
-		3265587E0F99513100403217 /* Macintosh Models.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3265587D0F99513100403217 /* Macintosh Models.plist */; };
 		326558970F9952B700403217 /* SFBCrashReporterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 325B76D30F95888800F1092F /* SFBCrashReporterWindowController.m */; };
 		326558A30F9952D600403217 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 326558A20F9952D600403217 /* AddressBook.framework */; };
 		326558A70F9952EC00403217 /* SFBCrashReporterWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 325B76D20F95888800F1092F /* SFBCrashReporterWindowController.h */; };
@@ -38,7 +37,6 @@
 		3265585E0F9847BF00403217 /* GenerateFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateFormData.m; sourceTree = "<group>"; };
 		326558A20F9952D600403217 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		32DBCF5E0370ADEE00C91783 /* SFBCrashReporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporter_Prefix.pch; sourceTree = "<group>"; };
-		32E9DEB00F944DDE0019C811 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = "English.lproj/Macintosh Models.plist"; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SFBCrashReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFBCrashReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -89,7 +87,6 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3265587D0F99513100403217 /* Macintosh Models.plist */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				326558CD0F9954A100403217 /* SFBCrashReporterWindow.xib */,
@@ -181,6 +178,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = sbooth.org;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "SFBCrashReporter" */;
@@ -210,7 +208,6 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				326558CE0F9954A100403217 /* SFBCrashReporterWindow.xib in Resources */,
-				3265587E0F99513100403217 /* Macintosh Models.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,14 +236,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		3265587D0F99513100403217 /* Macintosh Models.plist */ = {
-			isa = PBXVariantGroup;
-			children = (
-				32E9DEB00F944DDE0019C811 /* English */,
-			);
-			name = "Macintosh Models.plist";
-			sourceTree = "<group>";
-		};
 		326558CD0F9954A100403217 /* SFBCrashReporterWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -261,20 +250,22 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SFBCrashReporter_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = SFBCrashReporter;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -282,17 +273,20 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SFBCrashReporter_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = SFBCrashReporter;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -325,7 +319,6 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
 			};
 			name = Debug;
 		};
@@ -355,7 +348,6 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 			};
 			name = Release;
 		};

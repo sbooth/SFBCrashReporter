@@ -98,9 +98,10 @@ System Information
 ==================
 Mac OS:       {$_POST['systemVersion']} ({$_POST['systemBuildVersion']})
 Machine:      {$_POST['machine']}
-Model:        {$_POST['modelName']}
-CPU Family:   {$_POST['CPUFamilyName']}
-CPUs:         {$_POST['numberOfCPUs']}
+Model:        {$_POST['model']}
+CPU Family:   {$_POST['CPUFamily']}
+CPU Type:     {$_POST['CPUType']} ({$_POST['CPUSubtype']})
+CPUs:         {$_POST['numberOfCPUs']} ({$_POST['physicalCPUs']} physical, {$_POST['logicalCPUs']} logical)
 CPU Freq:     {$CPUFrequencyString}
 Memory:       {$physicalMemoryString}
 Bus Freq:     {$busFrequencyString}
