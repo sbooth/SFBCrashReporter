@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2014 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -10,4 +10,4 @@
 // ========================================
 // Generates multipart/form-data from the given dictionary using the specified boundary
 // ========================================
-NSData * GenerateFormData(NSDictionary *formValues, NSString *boundary);
+NSData * GenerateFormData(NSDictionary *formValues, NSString *boundary) NS_RETURNS_RETAINED;

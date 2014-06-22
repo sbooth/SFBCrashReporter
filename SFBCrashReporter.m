@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2014 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -70,7 +70,7 @@
 		}
 	}
 	
-	return crashFolderPaths;	
+	return crashFolderPaths;
 }
 
 + (NSArray *) crashLogPaths

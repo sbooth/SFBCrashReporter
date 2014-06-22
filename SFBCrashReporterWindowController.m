@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009 - 2012 Stephen F. Booth <me@sbooth.org>
+ *  Copyright (C) 2009 - 2014 Stephen F. Booth <me@sbooth.org>
  *  All Rights Reserved
  */
 
@@ -40,10 +40,6 @@
 @end
 
 @implementation SFBCrashReporterWindowController
-
-@synthesize emailAddress, crashLogPath, submissionURL;
-@synthesize commentsTextView, reportButton, discardButton, ignoreButton, progressIndicator;
-@synthesize self_reference;
 
 + (void) initialize
 {
@@ -151,7 +147,7 @@
 	if(noErr == err) {
 		err = FSMoveObjectToTrashSync(&ref, NULL, kFSFileOperationDefaultOptions);
 		if(noErr != err)
-			NSLog(@"SFBCrashReporter: Unable to move %@ to trash: %i", self.crashLogPath, err);
+			NSLog(@"SFBCrashReporter: Unable to move %@ to trash: %i", self.crashLogPath, (int)err);
 	}
 	else
 		NSLog(@"SFBCrashReporter: Unable to create FSRef for file %@", self.crashLogPath);
@@ -277,7 +273,7 @@
 	
 	// Include the date and time
 	[formValues setObject:[dateFormatter stringFromDate:[NSDate date]] forKey:@"date"];
-		
+
 	// Generate the form data
 	NSString *boundary = @"81e29ba4f957efe5916039f587fe3ed7";
 	NSData *formData = GenerateFormData(formValues, boundary);
@@ -291,7 +287,7 @@
 	[urlRequest setValue:contentType forHTTPHeaderField:@"Content-Type"];
 
 	[urlRequest setValue:@"SFBCrashReporter" forHTTPHeaderField:@"User-Agent"];
-	[urlRequest setValue:[NSString stringWithFormat:@"%lu", [formData length]] forHTTPHeaderField:@"Content-Length"];
+	[urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[formData length]] forHTTPHeaderField:@"Content-Length"];
 
 	[urlRequest setHTTPBody:formData];
 	
@@ -387,7 +383,7 @@
 
 	_urlConnection = nil;
 	_responseData = nil;
-	
+
 	if(responseOK) {
 		// Create our own instance since this method could be called from a background thread
 		NSFileManager *fileManager = [[NSFileManager alloc] init];
