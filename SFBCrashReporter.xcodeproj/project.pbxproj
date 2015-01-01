@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		322EB6150F8DA4B40081A563 /* SFBSystemInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 322EB6130F8DA4B40081A563 /* SFBSystemInformation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		322EB6160F8DA4B40081A563 /* SFBSystemInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 322EB6140F8DA4B40081A563 /* SFBSystemInformation.m */; };
+		323492171A55BE0300FEC47B /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 323492161A55BE0300FEC47B /* COPYING */; };
 		326557C50F980F2400403217 /* SFBCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 326557C30F980F2400403217 /* SFBCrashReporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		326557C60F980F2400403217 /* SFBCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 326557C40F980F2400403217 /* SFBCrashReporter.m */; };
 		3265585F0F9847BF00403217 /* GenerateFormData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3265585D0F9847BF00403217 /* GenerateFormData.h */; };
@@ -29,6 +30,7 @@
 		322EB6130F8DA4B40081A563 /* SFBSystemInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBSystemInformation.h; sourceTree = "<group>"; };
 		322EB6140F8DA4B40081A563 /* SFBSystemInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBSystemInformation.m; sourceTree = "<group>"; };
 		322EB7780F8DB58A0081A563 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SFBCrashReporterWindow.xib; sourceTree = "<group>"; };
+		323492161A55BE0300FEC47B /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		325B76D20F95888800F1092F /* SFBCrashReporterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporterWindowController.h; sourceTree = "<group>"; };
 		325B76D30F95888800F1092F /* SFBCrashReporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBCrashReporterWindowController.m; sourceTree = "<group>"; };
 		326557C30F980F2400403217 /* SFBCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporter.h; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 		0867D691FE84028FC02AAC07 /* SFBCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
+				323492161A55BE0300FEC47B /* COPYING */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -178,7 +181,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = sbooth.org;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "SFBCrashReporter" */;
@@ -206,6 +209,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323492171A55BE0300FEC47B /* COPYING in Resources */,
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				326558CE0F9954A100403217 /* SFBCrashReporterWindow.xib in Resources */,
 			);
@@ -295,7 +299,9 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
@@ -332,7 +338,9 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
