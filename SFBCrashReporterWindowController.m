@@ -51,10 +51,6 @@
 
 @end
 
-@interface SFBCrashReporterWindowController (Callbacks)
-- (void) showSubmissionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-@end
-
 @interface SFBCrashReporterWindowController (Private)
 - (NSString *) applicationName;
 - (void) sendCrashReport;
@@ -180,21 +176,6 @@
 
 @end
 
-@implementation SFBCrashReporterWindowController (Callbacks)
-
-- (void) showSubmissionSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-
-#pragma unused(sheet)
-#pragma unused(returnCode)
-#pragma unused(contextInfo)
-
-	// Whether success or failure, all that remains is to close the window
-	[[self window] orderOut:self];
-}
-
-@end
-
 @implementation SFBCrashReporterWindowController (Private)
 
 // Convenience method for bindings
@@ -251,7 +232,7 @@
 		[formValues setObject:self.emailAddress forKey:@"emailAddress"];
 	
 	// Optional comments
-	NSAttributedString *attributedComments = [self.commentsTextView attributedSubstringFromRange:NSMakeRange(0, NSUIntegerMax)];
+	NSAttributedString *attributedComments = [self.commentsTextView attributedSubstringForProposedRange:NSMakeRange(0, NSUIntegerMax) actualRange:NULL];
 	if([[attributedComments string] length])
 		[formValues setObject:[attributedComments string] forKey:@"comments"];
 	
@@ -327,18 +308,18 @@
 - (void) showSubmissionSucceededSheet
 {
 	[self.progressIndicator stopAnimation:self];
-		
-	NSBeginAlertSheet(NSLocalizedString(@"The crash report was successfully submitted.", @""), 
-					  nil /* Use the default button title, */, 
-					  nil, 
-					  nil, 
-					  [self window], 
-					  self, 
-					  @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), 
-					  NULL, 
-					  NULL, 
-					  NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), 
-					  [self applicationName]);
+
+	NSAlert *alert = [[NSAlert alloc] init];
+
+	alert.messageText = NSLocalizedString(@"The crash report was successfully submitted.", @"");
+	alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"Thank you for taking the time to help improve %@!", @""), [self applicationName]];
+
+	[alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+
+#pragma unused(returnCode)
+
+		[[self window] orderOut:self];
+	}];
 }
 
 - (void) showSubmissionFailedSheet:(NSError *)error
@@ -347,17 +328,17 @@
 
 	[self.progressIndicator stopAnimation:self];
 	
-	NSBeginAlertSheet(NSLocalizedString(@"An error occurred while submitting the crash report.", @""), 
-					  nil /* Use the default button title, */, 
-					  nil, 
-					  nil, 
-					  [self window], 
-					  self, 
-					  @selector(showSubmissionSheetDidEnd:returnCode:contextInfo:), 
-					  NULL, 
-					  NULL, 
-					  NSLocalizedString(@"The error was: %@", @""), 
-					  [error localizedDescription]);
+	NSAlert *alert = [[NSAlert alloc] init];
+
+	alert.messageText = NSLocalizedString(@"An error occurred while submitting the crash report.", @"");
+	alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"The error was: %@", @""), [error localizedDescription]];
+
+	[alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+
+#pragma unused(returnCode)
+
+		[[self window] orderOut:self];
+	}];
 }
 
 #pragma mark NSTextView delegate methods
