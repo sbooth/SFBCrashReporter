@@ -28,14 +28,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-// ========================================
-// The main interface
-// ========================================
+/*! @brief The interface for crash reporting */
 @interface SFBCrashReporter : NSObject
 {}
 
-// Ensure that SFBCrashReporterCrashSubmissionURL is set to a string in either your application's Info.plist
-// or NSUserDefaults and call this
+/*!
+ * @brief Check for new crash logs, and if any are found present a window to the user allowing
+ * them to report the crash or discard the log.
+ *
+ * The crash information will be submitted to the URL specified by the key \c SFBCrashReporterCrashSubmissionURL
+ * from your application's \c Info.plist or NSUserDefaults.
+ */
 + (void) checkForNewCrashes;
 
 @end

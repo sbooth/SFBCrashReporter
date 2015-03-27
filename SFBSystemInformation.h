@@ -28,34 +28,59 @@
 
 #import <Cocoa/Cocoa.h>
 
-// ========================================
-// Utility class for accessing useful system information
-// ========================================
+/*! @brief Utility class for accessing useful system information */
 @interface SFBSystemInformation : NSObject
 {}
 
-// The shared instance
+/*! @brief The shared instance */
 + (SFBSystemInformation *) instance;
 
-// Hardware information
-- (NSString *) machine;			// Machine class: "x86_64"
-- (NSString *) model;			// Machine model: "MacBookPro8,2"
+#pragma mark Hardware information
 
-- (NSNumber *) physicalMemory;	// in bytes
-- (NSNumber *) busFrequency;	// in hertz
-- (NSNumber *) CPUFrequency;	// in hertz
+/*! @brief The machine class, for example \c x86_64 */
+- (NSString *) machine;
+
+/*! @brief The machine model, for example \c MacBookPro8,2 */
+- (NSString *) model;
+
+
+/*! @brief The physical memory in bytes */
+- (NSNumber *) physicalMemory;
+
+/*! @brief The bus frequency in hertz */
+- (NSNumber *) busFrequency;
+
+/*! @brief The CPU frequency in hertz */
+- (NSNumber *) CPUFrequency;
+
 
 // See /usr/include/mach/machine.h for possible values
+
+/*! @brief The CPU family */
 - (NSNumber *) CPUFamily;
+
+/*! @brief The CPU type */
 - (NSNumber *) CPUType;
+
+/*! @brief The CPU subtype */
 - (NSNumber *) CPUSubtype;
 
-- (NSNumber *) numberOfCPUs;	// The maximum number of processors that could be available
-- (NSNumber *) physicalCPUs;	// The number of physical processors in the current power mgmt mode
-- (NSNumber *) logicalCPUs;		// The number of logical processors in the current power mgmt mode
+/*! @brief The maximum number of processors that could be available */
+- (NSNumber *) numberOfCPUs;
 
-// Mac OS version information
+/*! @brief The number of physical processors in the current power management mode */
+- (NSNumber *) physicalCPUs;
+
+/*! @brief The number of logical processors in the current power management mode */
+- (NSNumber *) logicalCPUs;
+
+
+#pragma mark Mac OS version information
+
+/*! @brief The version of Mac OS X, for example \c 10.10.2 */
 - (NSString *) systemVersion;
+
+/*! @brief The build version of Mac OS X, for example \c 14C1514 */
 - (NSString *) systemBuildVersion;
 
 @end
