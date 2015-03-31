@@ -28,4 +28,5 @@ Adding `SFBCrashReporter` support to your application is easy:
 	s.source_files  		= "GenerateFormData.{h,m}", "SFBCrashReporter.{h,m}", "SFBCrashReporterWindowController.{h,m}", "SFBSystemInformation.{h,m}"
 	s.public_header_files 	= "SFBCrashReporter.h", "SFBSystemInformation.h"
 	s.requires_arc 			= true
+	s.frameworks			= "AddressBook", "Cocoa"
 end
