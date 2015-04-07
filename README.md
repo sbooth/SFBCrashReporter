@@ -1,3 +1,7 @@
+[![Version](https://img.shields.io/cocoapods/v/SFBCrashReporter.svg)](http://cocoadocs.org/docsets/SFBCrashReporter)
+[![Platform](https://img.shields.io/cocoapods/p/SFBCrashReporter.svg)](https://github.com/sbooth/SFBCrashReporter)
+[![License](https://img.shields.io/cocoapods/l/SFBCrashReporter.svg)](COPYING)
+
 `SFBCrashReporter` is a framework for submitting application crash logs to an HTTP server.
 
 Adding `SFBCrashReporter` support to your application is easy:
