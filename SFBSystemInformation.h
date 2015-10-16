@@ -33,54 +33,54 @@
 {}
 
 /*! @brief The shared instance */
-+ (SFBSystemInformation *) instance;
++ (nonnull SFBSystemInformation *) instance;
 
 #pragma mark Hardware information
 
 /*! @brief The machine class, for example \c x86_64 */
-- (NSString *) machine;
+- (nullable NSString *) machine;
 
 /*! @brief The machine model, for example \c MacBookPro8,2 */
-- (NSString *) model;
+- (nullable NSString *) model;
 
 
 /*! @brief The physical memory in bytes */
-- (NSNumber *) physicalMemory;
+- (nullable NSNumber *) physicalMemory;
 
 /*! @brief The bus frequency in hertz */
-- (NSNumber *) busFrequency;
+- (nullable NSNumber *) busFrequency;
 
 /*! @brief The CPU frequency in hertz */
-- (NSNumber *) CPUFrequency;
+- (nullable NSNumber *) CPUFrequency;
 
 
 // See /usr/include/mach/machine.h for possible values
 
 /*! @brief The CPU family */
-- (NSNumber *) CPUFamily;
+- (nullable NSNumber *) CPUFamily;
 
 /*! @brief The CPU type */
-- (NSNumber *) CPUType;
+- (nullable NSNumber *) CPUType;
 
 /*! @brief The CPU subtype */
-- (NSNumber *) CPUSubtype;
+- (nullable NSNumber *) CPUSubtype;
 
 /*! @brief The maximum number of processors that could be available */
-- (NSNumber *) numberOfCPUs;
+- (nullable NSNumber *) numberOfCPUs;
 
 /*! @brief The number of physical processors in the current power management mode */
-- (NSNumber *) physicalCPUs;
+- (nullable NSNumber *) physicalCPUs;
 
 /*! @brief The number of logical processors in the current power management mode */
-- (NSNumber *) logicalCPUs;
+- (nullable NSNumber *) logicalCPUs;
 
 
 #pragma mark Mac OS version information
 
 /*! @brief The version of Mac OS X, for example \c 10.10.2 */
-- (NSString *) systemVersion;
+- (nullable NSString *) systemVersion;
 
 /*! @brief The build version of Mac OS X, for example \c 14C1514 */
-- (NSString *) systemBuildVersion;
+- (nullable NSString *) systemBuildVersion;
 
 @end

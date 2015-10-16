@@ -33,4 +33,4 @@
 // ========================================
 // Generates multipart/form-data from the given dictionary using the specified boundary
 // ========================================
-NSData * GenerateFormData(NSDictionary *formValues, NSString *boundary) NS_RETURNS_RETAINED;
+NSData * _Nonnull GenerateFormData(NSDictionary * _Nonnull formValues, NSString * _Nonnull boundary) NS_RETURNS_RETAINED;

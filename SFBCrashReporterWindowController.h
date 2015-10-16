@@ -36,13 +36,13 @@
 
 // ========================================
 // Properties
-@property (nonatomic, strong) NSString * emailAddress;
-@property (nonatomic, strong) NSString * crashLogPath;
-@property (nonatomic, strong) NSURL * submissionURL;
+@property (nonatomic, strong, nullable) NSString * emailAddress;
+@property (nonatomic, strong, nonnull) NSString * crashLogPath;
+@property (nonatomic, strong, nonnull) NSURL * submissionURL;
 
 // ========================================
 // IB Outlets
-@property (nonatomic, assign) IBOutlet NSTextView * commentsTextView; // weak property type not available for NSTextView
+@property (nonatomic, assign, nonnull) IBOutlet NSTextView * commentsTextView; // weak property type not available for NSTextView
 @property (nonatomic, weak) IBOutlet NSButton * reportButton;
 @property (nonatomic, weak) IBOutlet NSButton * ignoreButton;
 @property (nonatomic, weak) IBOutlet NSButton * discardButton;
@@ -50,12 +50,12 @@
 
 // ========================================
 // Always use this to show the window- do not alloc/init directly
-+ (void) showWindowForCrashLogPath:(NSString *)path submissionURL:(NSURL *)submissionURL;
++ (void) showWindowForCrashLogPath:(nonnull NSString *)path submissionURL:(nonnull NSURL *)submissionURL;
 
 // ========================================
 // Action methods
-- (IBAction) sendReport:(id)sender;
-- (IBAction) ignoreReport:(id)sender;
-- (IBAction) discardReport:(id)sender;
+- (IBAction) sendReport:(nullable id)sender;
+- (IBAction) ignoreReport:(nullable id)sender;
+- (IBAction) discardReport:(nullable id)sender;
 
 @end
