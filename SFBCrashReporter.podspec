@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name					= "SFBCrashReporter"
-	s.version				= "1.0.0"
+	s.version				= "1.0.1"
 	s.summary				= "A framework for submitting application crash logs to an HTTP server."
 	s.description			= <<-DESC
 Adding `SFBCrashReporter` support to your application is easy:
@@ -24,9 +24,10 @@ Adding `SFBCrashReporter` support to your application is easy:
 	s.author				= { "Stephen F. Booth" => "me@sbooth.org" }
 	s.social_media_url		= "http://twitter.com/sbooth"
 	s.platform				= :osx, "10.7"
-	s.source       			= { :git => "https://github.com/sbooth/SFBCrashReporter.git", :tag => "1.0.0" }
+	s.source       			= { :git => "https://github.com/sbooth/SFBCrashReporter.git", :tag => s.version.to_s }
 	s.source_files  		= "GenerateFormData.{h,m}", "SFBCrashReporter.{h,m}", "SFBCrashReporterWindowController.{h,m}", "SFBSystemInformation.{h,m}"
 	s.public_header_files 	= "SFBCrashReporter.h", "SFBSystemInformation.h"
+	s.resource 			= "SFBCrashReporterWindow.xib"
 	s.requires_arc 			= true
 	s.frameworks			= "AddressBook", "Cocoa"
 end
