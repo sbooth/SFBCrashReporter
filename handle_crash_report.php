@@ -86,7 +86,7 @@ Date:         {$_POST['date']}
 EOS;
 
 // Add the system information, if specified
-if($_POST[systemInformationIncluded]) {
+if(isset($_POST['systemInformationIncluded'])) {
   // Friendlier formats
   $CPUFrequencyString = frequency_to_human_readable_string($_POST['CPUFrequency']);
   $busFrequencyString = frequency_to_human_readable_string($_POST['busFrequency']);
@@ -119,7 +119,7 @@ EOS;
 }
 
 // Append e-mail address if provided
-if(strlen($_POST['emailAddress'])) {
+if(isset($_POST['emailAddress'])) {
   $message_body .= <<<EOS
 \n
 Submitted by: {$_POST['emailAddress']}
