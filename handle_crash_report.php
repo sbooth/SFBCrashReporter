@@ -9,7 +9,7 @@ function bytes_to_human_readable_string($bytes)
     ++$divisions;
   }
 
-  $string = nil;
+  $string = NULL;
   switch($divisions) {
     case 1:		$string = sprintf("%.2f bytes", $bytes); 	break;
     case 2:		$string = sprintf("%.2f KiB", $bytes); 		break;
@@ -34,7 +34,7 @@ function frequency_to_human_readable_string($hertz)
     ++$divisions;
   }
 
-  $string = nil;
+  $string = NULL;
   switch($divisions) {
     case 1:		$string = sprintf("%.2f hertz", $hertz); 	break;
     case 2:		$string = sprintf("%.2f KHz", $hertz); 		break;
