@@ -42,11 +42,11 @@
 
 // ========================================
 // IB Outlets
-@property (nonatomic, assign, nonnull) IBOutlet NSTextView * commentsTextView; // weak property type not available for NSTextView
-@property (nonatomic, weak) IBOutlet NSButton * reportButton;
-@property (nonatomic, weak) IBOutlet NSButton * ignoreButton;
-@property (nonatomic, weak) IBOutlet NSButton * discardButton;
-@property (nonatomic, weak) IBOutlet NSProgressIndicator * progressIndicator;
+@property (nonatomic, assign, nullable) IBOutlet NSTextView * commentsTextView; // weak property type not available for NSTextView
+@property (nonatomic, weak, nullable) IBOutlet NSButton * reportButton;
+@property (nonatomic, weak, nullable) IBOutlet NSButton * ignoreButton;
+@property (nonatomic, weak, nullable) IBOutlet NSButton * discardButton;
+@property (nonatomic, weak, nullable) IBOutlet NSProgressIndicator * progressIndicator;
 
 // ========================================
 // Always use this to show the window- do not alloc/init directly
