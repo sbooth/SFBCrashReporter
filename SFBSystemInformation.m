@@ -58,7 +58,8 @@ static NSString * stringForMIB(int *mib, u_int mib_length, NSError **error)
 	
 	// Fetch the property
 	if(-1 == sysctl(mib, mib_length, buffer, &length, NULL, 0)) {
-		free(buffer), buffer = NULL;
+		free(buffer);
+		buffer = NULL;
 		if(error)
 			*error = [NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
 		return nil;
@@ -67,7 +68,8 @@ static NSString * stringForMIB(int *mib, u_int mib_length, NSError **error)
 	// Ensure the memory is freed if an error occurs
 	NSString *result = [[NSString alloc] initWithBytesNoCopy:buffer length:(length - 1) encoding:NSASCIIStringEncoding freeWhenDone:YES];
 	if(!result) {
-		free(buffer), buffer = NULL;
+		free(buffer);
+		buffer = NULL;
 		if(error)
 			*error = [NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
 		return nil;
