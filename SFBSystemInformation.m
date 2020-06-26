@@ -160,24 +160,44 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 	return int64ForSysctlName("hw.busfrequency", NULL);
 }
 
-- (NSNumber *)CPUFrequency
+- (NSNumber *)cpuFrequency
 {
 	return int64ForSysctlName("hw.cpufrequency", NULL);
 }
 
-- (NSNumber *)CPUFamily
+- (NSNumber *)CPUFrequency
+{
+	return [self cpuFrequency];
+}
+
+- (NSNumber *)cpuFamily
 {
 	return int32ForSysctlName("hw.cpufamily", NULL);
 }
 
-- (NSNumber *)CPUType
+- (NSNumber *)CPUFamily
+{
+	return [self cpuFamily];
+}
+
+- (NSNumber *)cpuType
 {
 	return int32ForSysctlName("hw.cputype", NULL);
 }
 
-- (NSNumber *)CPUSubtype
+- (NSNumber *)CPUType
+{
+	return [self cpuType];
+}
+
+- (NSNumber *)cpuSubtype
 {
 	return int32ForSysctlName("hw.cpusubtype", NULL);
+}
+
+- (NSNumber *)CPUSubtype
+{
+	return [self cpuSubtype];
 }
 
 - (NSNumber *)numberOfCPUs

@@ -27,19 +27,23 @@
 - (nullable NSNumber *)busFrequency;
 
 /*! @brief The CPU frequency in hertz */
-- (nullable NSNumber *)CPUFrequency;
+- (nullable NSNumber *)cpuFrequency;
+- (nullable NSNumber *)CPUFrequency __attribute__((deprecated("", "cpuFrequency")));
 
 
 // See /usr/include/mach/machine.h for possible values
 
 /*! @brief The CPU family */
-- (nullable NSNumber *)CPUFamily;
+- (nullable NSNumber *)cpuFamily;
+- (nullable NSNumber *)CPUFamily __attribute__((deprecated("", "cpuFamily")));
 
 /*! @brief The CPU type */
-- (nullable NSNumber *)CPUType;
+- (nullable NSNumber *)cpuType;
+- (nullable NSNumber *)CPUType __attribute__((deprecated("", "cpuType")));
 
 /*! @brief The CPU subtype */
-- (nullable NSNumber *)CPUSubtype;
+- (nullable NSNumber *)cpuSubtype;
+- (nullable NSNumber *)CPUSubtype __attribute__((deprecated("", "cpuSubtype")));
 
 /*! @brief The maximum number of processors that could be available */
 - (nullable NSNumber *)numberOfCPUs;

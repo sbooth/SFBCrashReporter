@@ -88,7 +88,7 @@ EOS;
 // Add the system information, if specified
 if(isset($_POST['systemInformationIncluded'])) {
   // Friendlier formats
-  $CPUFrequencyString = frequency_to_human_readable_string($_POST['CPUFrequency']);
+  $cpuFrequencyString = frequency_to_human_readable_string($_POST['cpuFrequency']);
   $busFrequencyString = frequency_to_human_readable_string($_POST['busFrequency']);
   $physicalMemoryString = bytes_to_human_readable_string($_POST['physicalMemory']);
 
@@ -99,10 +99,10 @@ System Information
 Mac OS:       {$_POST['systemVersion']} ({$_POST['systemBuildVersion']})
 Machine:      {$_POST['machine']}
 Model:        {$_POST['model']}
-CPU Family:   {$_POST['CPUFamily']}
-CPU Type:     {$_POST['CPUType']} ({$_POST['CPUSubtype']})
+CPU Family:   {$_POST['cpuFamily']}
+CPU Type:     {$_POST['cpuType']} ({$_POST['cpuSubtype']})
 CPUs:         {$_POST['numberOfCPUs']} ({$_POST['physicalCPUs']} physical, {$_POST['logicalCPUs']} logical)
-CPU Freq:     {$CPUFrequencyString}
+CPU Freq:     {$cpuFrequencyString}
 Memory:       {$physicalMemoryString}
 Bus Freq:     {$busFrequencyString}
 EOS;

@@ -170,14 +170,22 @@
 			[formValues setObject:value forKey:@"physicalMemory"];
 		if((value = [systemInformation busFrequency]))
 			[formValues setObject:value forKey:@"busFrequency"];
-		if((value = [systemInformation CPUFrequency]))
+		if((value = [systemInformation cpuFrequency])) {
+			[formValues setObject:value forKey:@"cpuFrequency"];
 			[formValues setObject:value forKey:@"CPUFrequency"];
-		if((value = [systemInformation CPUFamily]))
+		}
+		if((value = [systemInformation cpuFamily])) {
+			[formValues setObject:value forKey:@"cpuFamily"];
 			[formValues setObject:value forKey:@"CPUFamily"];
-		if((value = [systemInformation CPUType]))
+		}
+		if((value = [systemInformation cpuType])) {
+			[formValues setObject:value forKey:@"cpuType"];
 			[formValues setObject:value forKey:@"CPUType"];
-		if((value = [systemInformation CPUSubtype]))
+		}
+		if((value = [systemInformation cpuSubtype])) {
+			[formValues setObject:value forKey:@"cpuSubtype"];
 			[formValues setObject:value forKey:@"CPUSubtype"];
+		}
 		if((value = [systemInformation numberOfCPUs]))
 			[formValues setObject:value forKey:@"numberOfCPUs"];
 		if((value = [systemInformation physicalCPUs]))
