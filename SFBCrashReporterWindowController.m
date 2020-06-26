@@ -7,7 +7,7 @@
 #import "SFBSystemInformation.h"
 #import "GenerateFormData.h"
 
-#import <AddressBook/AddressBook.h>
+#import <Contacts/Contacts.h>
 
 #define USE_NSTEXTVIEW_PRIVATE_API 1
 #if USE_NSTEXTVIEW_PRIVATE_API
@@ -85,8 +85,23 @@
 	[[self window] setTitle:windowTitle];
 	
 	// Populate the e-mail field with the user's primary e-mail address
-	ABMultiValue *emailAddresses = [[[ABAddressBook sharedAddressBook] me] valueForProperty:kABEmailProperty];
-	self.emailAddress = (NSString *)[emailAddresses valueForIdentifier:[emailAddresses primaryIdentifier]];
+	CNContactStore *contactStore = [[CNContactStore alloc] init];
+	[contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError *error) {
+
+#pragma unused(error)
+
+		if(granted) {
+			CNContact *meContact = [contactStore unifiedMeContactWithKeysToFetch:@[CNContactEmailAddressesKey] error:nil];
+			if(meContact) {
+				NSString *emailAddress = [[[meContact emailAddresses] firstObject] value];
+				if(emailAddress) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						self.emailAddress = emailAddress;
+					});
+				}
+			}
+		}
+	}];
 
 	// Set the font for the comments
 	[self.commentsTextView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:10.0] forKey:NSFontAttributeName]];

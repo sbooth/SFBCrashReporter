@@ -16,7 +16,7 @@
 		326558970F9952B700403217 /* SFBCrashReporterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 325B76D30F95888800F1092F /* SFBCrashReporterWindowController.m */; };
 		326558A70F9952EC00403217 /* SFBCrashReporterWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 325B76D20F95888800F1092F /* SFBCrashReporterWindowController.h */; };
 		326558CE0F9954A100403217 /* SFBCrashReporterWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 326558CD0F9954A100403217 /* SFBCrashReporterWindow.xib */; };
-		32B3559423BFAC37007250A8 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32B3559223BFAC1D007250A8 /* AddressBook.framework */; };
+		32A159D824A6131A00E96699 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A159D724A6131A00E96699 /* Contacts.framework */; };
 		32B3559523BFAC37007250A8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32B3559323BFAC1D007250A8 /* Cocoa.framework */; };
 		32FAB07223BF99FB000886D8 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32FAB07123BF99FB000886D8 /* LICENSE.txt */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -32,7 +32,8 @@
 		3265585D0F9847BF00403217 /* GenerateFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateFormData.h; sourceTree = "<group>"; };
 		3265585E0F9847BF00403217 /* GenerateFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateFormData.m; sourceTree = "<group>"; };
 		32A159D524A60CBA00E96699 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		32A159D624A60CBA00E96699 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SFBCrashReporterWindow.xib; sourceTree = "<group>"; };
+		32A159D724A6131A00E96699 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		32A159D924A6187300E96699 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SFBCrashReporterWindow.xib; sourceTree = "<group>"; };
 		32B3559223BFAC1D007250A8 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		32B3559323BFAC1D007250A8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = "<group>"; };
 		32FAB07123BF99FB000886D8 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -45,8 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32B3559423BFAC37007250A8 /* AddressBook.framework in Frameworks */,
 				32B3559523BFAC37007250A8 /* Cocoa.framework in Frameworks */,
+				32A159D824A6131A00E96699 /* Contacts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +77,7 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				32A159D724A6131A00E96699 /* Contacts.framework */,
 				32B3559223BFAC1D007250A8 /* AddressBook.framework */,
 				32B3559323BFAC1D007250A8 /* Cocoa.framework */,
 			);
@@ -158,6 +160,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* SFBCrashReporter */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -208,7 +211,7 @@
 		326558CD0F9954A100403217 /* SFBCrashReporterWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				32A159D624A60CBA00E96699 /* en */,
+				32A159D924A6187300E96699 /* Base */,
 			);
 			name = SFBCrashReporterWindow.xib;
 			sourceTree = "<group>";
@@ -303,7 +306,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
@@ -355,7 +358,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 			};
 			name = Release;
 		};
