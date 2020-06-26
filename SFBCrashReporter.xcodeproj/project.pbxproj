@@ -23,16 +23,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		322EB6130F8DA4B40081A563 /* SFBSystemInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBSystemInformation.h; sourceTree = "<group>"; };
 		322EB6140F8DA4B40081A563 /* SFBSystemInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBSystemInformation.m; sourceTree = "<group>"; };
-		322EB7780F8DB58A0081A563 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SFBCrashReporterWindow.xib; sourceTree = "<group>"; };
 		325B76D20F95888800F1092F /* SFBCrashReporterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporterWindowController.h; sourceTree = "<group>"; };
 		325B76D30F95888800F1092F /* SFBCrashReporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBCrashReporterWindowController.m; sourceTree = "<group>"; };
 		326557C30F980F2400403217 /* SFBCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporter.h; sourceTree = "<group>"; };
 		326557C40F980F2400403217 /* SFBCrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBCrashReporter.m; sourceTree = "<group>"; };
 		3265585D0F9847BF00403217 /* GenerateFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateFormData.h; sourceTree = "<group>"; };
 		3265585E0F9847BF00403217 /* GenerateFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateFormData.m; sourceTree = "<group>"; };
+		32A159D524A60CBA00E96699 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32A159D624A60CBA00E96699 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SFBCrashReporterWindow.xib; sourceTree = "<group>"; };
 		32B3559223BFAC1D007250A8 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		32B3559323BFAC1D007250A8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = "<group>"; };
 		32FAB07123BF99FB000886D8 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -149,15 +149,15 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = sbooth.org;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "SFBCrashReporter" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
+				en,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* SFBCrashReporter */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -200,7 +200,7 @@
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C1667FE841158C02AAC07 /* English */,
+				32A159D524A60CBA00E96699 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 		326558CD0F9954A100403217 /* SFBCrashReporterWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				322EB7780F8DB58A0081A563 /* English */,
+				32A159D624A60CBA00E96699 /* en */,
 			);
 			name = SFBCrashReporterWindow.xib;
 			sourceTree = "<group>";
@@ -271,6 +271,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -324,6 +325,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
