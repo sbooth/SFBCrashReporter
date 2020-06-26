@@ -125,7 +125,7 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 
 @implementation SFBSystemInformation
 
-+ (SFBSystemInformation *) instance
++ (SFBSystemInformation *)instance
 {
 	static dispatch_once_t pred = 0;
 	static SFBSystemInformation *sharedInstance = nil;
@@ -137,7 +137,7 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 	return sharedInstance;
 }
 
-- (NSString *) machine
+- (NSString *)machine
 {
 	int mib [] = { CTL_HW, HW_MACHINE };
 	return stringForMIB(mib, 2, NULL);
@@ -149,60 +149,60 @@ static NSNumber * int64ForSysctlName(const char *name, NSError **error)
 	return stringForMIB(mib, 2, NULL);
 }
 
-- (NSNumber *) physicalMemory
+- (NSNumber *)physicalMemory
 {
 	int mib [] = { CTL_HW, HW_MEMSIZE };
 	return int64ForMIB(mib, 2, NULL);
 }
 
-- (NSNumber *) busFrequency
+- (NSNumber *)busFrequency
 {
 	return int64ForSysctlName("hw.busfrequency", NULL);
 }
 
-- (NSNumber *) CPUFrequency
+- (NSNumber *)CPUFrequency
 {
 	return int64ForSysctlName("hw.cpufrequency", NULL);
 }
 
-- (NSNumber *) CPUFamily
+- (NSNumber *)CPUFamily
 {
 	return int32ForSysctlName("hw.cpufamily", NULL);
 }
 
-- (NSNumber *) CPUType
+- (NSNumber *)CPUType
 {
 	return int32ForSysctlName("hw.cputype", NULL);
 }
 
-- (NSNumber *) CPUSubtype
+- (NSNumber *)CPUSubtype
 {
 	return int32ForSysctlName("hw.cpusubtype", NULL);
 }
 
-- (NSNumber *) numberOfCPUs
+- (NSNumber *)numberOfCPUs
 {
 	int mib [] = { CTL_HW, HW_NCPU };
 	return intForMIB(mib, 2, NULL);
 }
 
-- (NSNumber *) physicalCPUs
+- (NSNumber *)physicalCPUs
 {
 	return int32ForSysctlName("hw.physicalcpu", NULL);
 }
 
-- (NSNumber *) logicalCPUs
+- (NSNumber *)logicalCPUs
 {
 	return int32ForSysctlName("hw.logicalcpu", NULL);
 }
 
-- (NSString *) systemVersion
+- (NSString *)systemVersion
 {
 	NSDictionary *systemVersionDictionary = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
 	return [systemVersionDictionary objectForKey:@"ProductVersion"];
 }
 
-- (NSString *) systemBuildVersion
+- (NSString *)systemBuildVersion
 {
 	NSDictionary *systemVersionDictionary = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
 	return [systemVersionDictionary objectForKey:@"ProductBuildVersion"];

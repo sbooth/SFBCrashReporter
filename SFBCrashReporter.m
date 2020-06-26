@@ -7,13 +7,13 @@
 #import "SFBCrashReporterWindowController.h"
 
 @interface SFBCrashReporter (Private)
-+ (NSArray *) crashLogDirectories;
-+ (NSArray *) crashLogPaths;
++ (NSArray<NSString *> *)crashLogDirectories;
++ (NSArray<NSString *> *)crashLogPaths;
 @end
 
 @implementation SFBCrashReporter
 
-+ (void) checkForNewCrashes
++ (void)checkForNewCrashes
 {
 	// If no URL is found for the submission, we can't do anything
 	NSString *crashSubmissionURLString = [[NSUserDefaults standardUserDefaults] stringForKey:@"SFBCrashReporterCrashSubmissionURL"];
@@ -52,9 +52,8 @@
 
 @implementation SFBCrashReporter (Private)
 
-+ (NSArray *) crashLogDirectories
++ (NSArray *)crashLogDirectories
 {
-	// Snow Leopard crash logs are located in ~/Library/Logs/DiagnosticReports
 	NSString *crashLogDirectory = @"Logs/DiagnosticReports";
 
 	NSMutableArray *crashFolderPaths = [[NSMutableArray alloc] init];
@@ -73,7 +72,7 @@
 	return crashFolderPaths;
 }
 
-+ (NSArray *) crashLogPaths
++ (NSArray *)crashLogPaths
 {
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 	NSArray *crashLogDirectories = [self crashLogDirectories];

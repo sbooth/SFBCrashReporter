@@ -9,7 +9,6 @@
 // The main class for SFBCrashReporter
 // ========================================
 @interface SFBCrashReporterWindowController : NSWindowController
-{}
 
 // ========================================
 // Properties
@@ -27,12 +26,12 @@
 
 // ========================================
 // Always use this to show the window- do not alloc/init directly
-+ (void) showWindowForCrashLogPath:(nonnull NSString *)path submissionURL:(nonnull NSURL *)submissionURL;
++ (void)showWindowForCrashLogPath:(nonnull NSString *)path submissionURL:(nonnull NSURL *)submissionURL;
 
 // ========================================
 // Action methods
-- (IBAction) sendReport:(nullable id)sender;
-- (IBAction) ignoreReport:(nullable id)sender;
-- (IBAction) discardReport:(nullable id)sender;
+- (IBAction)sendReport:(nullable id)sender;
+- (IBAction)ignoreReport:(nullable id)sender;
+- (IBAction)discardReport:(nullable id)sender;
 
 @end

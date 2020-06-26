@@ -12,7 +12,7 @@
 #define USE_NSTEXTVIEW_PRIVATE_API 1
 #if USE_NSTEXTVIEW_PRIVATE_API
 @interface NSTextView (ApplePrivate)
-- (void) setPlaceholderString:(NSString *)placeholder;
+- (void)setPlaceholderString:(NSString *)placeholder;
 @end
 #endif
 
@@ -29,15 +29,15 @@
 @end
 
 @interface SFBCrashReporterWindowController (Private)
-- (NSString *) applicationName;
-- (void) sendCrashReport;
-- (void) showSubmissionSucceededSheet;
-- (void) showSubmissionFailedSheet:(NSError *)error;
+- (NSString *)applicationName;
+- (void)sendCrashReport;
+- (void)showSubmissionSucceededSheet;
+- (void)showSubmissionFailedSheet:(NSError *)error;
 @end
 
 @implementation SFBCrashReporterWindowController
 
-+ (void) initialize
++ (void)initialize
 {
 	// Register reasonable defaults for most preferences
 	NSMutableDictionary *defaultsDictionary = [NSMutableDictionary dictionary];
@@ -48,7 +48,7 @@
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 }
 
-+ (void) showWindowForCrashLogPath:(NSString *)crashLogPath submissionURL:(NSURL *)submissionURL
++ (void)showWindowForCrashLogPath:(NSString *)crashLogPath submissionURL:(NSURL *)submissionURL
 {
 	NSParameterAssert(nil != crashLogPath);
 	NSParameterAssert(nil != submissionURL);
@@ -65,12 +65,12 @@
 }
 
 // Should not be called directly by anyone except this class
-- (id) init
+- (id)init
 {
 	return [super initWithWindowNibName:@"SFBCrashReporterWindow" owner:self];
 }
 
-- (void) windowDidLoad
+- (void)windowDidLoad
 {
 	// Set the window's title
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
@@ -98,7 +98,7 @@
 #endif
 }
 
-- (void) windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)notification
 {
 
 #pragma unused(notification)
@@ -110,7 +110,7 @@
 #pragma mark Action Methods
 
 // Send the report off
-- (IBAction) sendReport:(id)sender
+- (IBAction)sendReport:(id)sender
 {
 
 #pragma unused(sender)
@@ -119,7 +119,7 @@
 }
 
 // Don't do anything except dismiss our window
-- (IBAction) ignoreReport:(id)sender
+- (IBAction)ignoreReport:(id)sender
 {
 
 #pragma unused(sender)
@@ -128,7 +128,7 @@
 }
 
 // Move the crash log to the trash since the user isn't interested in submitting it
-- (IBAction) discardReport:(id)sender
+- (IBAction)discardReport:(id)sender
 {
 
 #pragma unused(sender)
@@ -146,13 +146,13 @@
 @implementation SFBCrashReporterWindowController (Private)
 
 // Convenience method for bindings
-- (NSString *) applicationName
+- (NSString *)applicationName
 {
 	return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 }
 
 // Do the actual work of building the HTTP POST and submitting it
-- (void) sendCrashReport
+- (void)sendCrashReport
 {
 	NSMutableDictionary *formValues = [NSMutableDictionary dictionary];
 	
@@ -272,7 +272,7 @@
 	_urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
 }
 
-- (void) showSubmissionSucceededSheet
+- (void)showSubmissionSucceededSheet
 {
 	[self.progressIndicator stopAnimation:self];
 
@@ -289,7 +289,7 @@
 	}];
 }
 
-- (void) showSubmissionFailedSheet:(NSError *)error
+- (void)showSubmissionFailedSheet:(NSError *)error
 {
 	NSParameterAssert(nil != error);
 
@@ -310,7 +310,7 @@
 
 #pragma mark NSTextView delegate methods
 
-- (BOOL) textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
+- (BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
 {
     if(commandSelector == @selector(insertTab:)) {
         [[textView window] selectNextKeyView:self];
@@ -326,7 +326,7 @@
 
 #pragma mark NSURLConnection delegate methods
 
-- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 
 #pragma unused(connection)
@@ -335,7 +335,7 @@
 	_responseData = [[NSMutableData alloc] init];
 }
 
-- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
 
 #pragma unused(connection)
@@ -343,7 +343,7 @@
 	[_responseData appendData:data];
 }
 
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 
 #pragma unused(connection)
@@ -383,7 +383,7 @@
 	}
 }
 
-- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 
 #pragma unused(connection)
