@@ -327,7 +327,7 @@
 			// Even though the log wasn't deleted, submission was still successful
 			[self performSelectorOnMainThread: @selector(showSubmissionSucceededSheet) withObject:nil waitUntilDone:NO];
 		} else {
-			NSLog(@"SFBCrashReporter error: Server returned status code %ld", (long)httpResponse.statusCode);
+			NSLog(@"SFBCrashReporter error: Unrecognized server response (status code %ld): \"%@\"", (long)httpResponse.statusCode, responseString);
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Unrecognized response from the server", @""), NSLocalizedDescriptionKey, nil];
 			NSError *err = [NSError errorWithDomain:NSPOSIXErrorDomain code:EPROTO userInfo:userInfo];
 
