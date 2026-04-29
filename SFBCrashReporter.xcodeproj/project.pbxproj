@@ -26,7 +26,7 @@
 		322EB6130F8DA4B40081A563 /* SFBSystemInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBSystemInformation.h; sourceTree = "<group>"; };
 		322EB6140F8DA4B40081A563 /* SFBSystemInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBSystemInformation.m; sourceTree = "<group>"; };
 		325B76D20F95888800F1092F /* SFBCrashReporterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporterWindowController.h; sourceTree = "<group>"; };
-		325B76D30F95888800F1092F /* SFBCrashReporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBCrashReporterWindowController.m; sourceTree = "<group>"; };
+		325B76D30F95888800F1092F /* SFBCrashReporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBCrashReporterWindowController.m; sourceTree = "<group>"; usesTabs = 1; };
 		326557C30F980F2400403217 /* SFBCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBCrashReporter.h; sourceTree = "<group>"; };
 		326557C40F980F2400403217 /* SFBCrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBCrashReporter.m; sourceTree = "<group>"; };
 		3265585D0F9847BF00403217 /* GenerateFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateFormData.h; sourceTree = "<group>"; };
@@ -234,7 +234,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@rpath";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = org.sbooth.CrashReporter;
 				PRODUCT_NAME = SFBCrashReporter;
 				SDKROOT = macosx;
@@ -254,7 +253,6 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@rpath";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = org.sbooth.CrashReporter;
 				PRODUCT_NAME = SFBCrashReporter;
 				SDKROOT = macosx;
@@ -313,7 +311,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
@@ -368,7 +366,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Release;
