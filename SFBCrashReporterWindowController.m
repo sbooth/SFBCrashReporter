@@ -289,9 +289,6 @@
 	// Submit the URL request
 	NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest
 																	 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
-#pragma unused(data)
-
 		if(error) {
 			[self performSelectorOnMainThread:@selector(showSubmissionFailedSheet:) withObject:error waitUntilDone:NO];
 			return;
