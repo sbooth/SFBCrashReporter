@@ -17,11 +17,6 @@
 #endif
 
 @interface SFBCrashReporterWindowController ()
-{
-@private
-	NSURLConnection *_urlConnection;
-	NSMutableData *_responseData;
-}
 
 // Keep a strong reference to self so ARC doesn't release the window before it's shown
 @property (nonatomic, strong) id self_reference;
@@ -292,7 +287,45 @@
 	[self.discardButton setEnabled:NO];
 	
 	// Submit the URL request
-	_urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest
+                                                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+#pragma unused(data)
+
+        if(error) {
+            [self performSelectorOnMainThread:@selector(showSubmissionFailedSheet:) withObject:error waitUntilDone:NO];
+            return;
+        }
+
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if(httpResponse.statusCode == 200) {
+            // Create our own instance since this method could be called from a background queue
+            NSFileManager *fileManager = [[NSFileManager alloc] init];
+
+            // Use the file's modification date as the last submitted crash date
+            NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:self.crashLogPath error:nil];
+            NSDate *fileModificationDate = [fileAttributes fileModificationDate];
+
+            if(fileModificationDate)
+                [[NSUserDefaults standardUserDefaults] setObject:fileModificationDate forKey:@"SFBCrashReporterLastCrashReportDate"];
+
+            // Delete the crash log since it is no longer needed
+            NSError *err = nil;
+            if(![fileManager removeItemAtPath:self.crashLogPath error:&err])
+                NSLog(@"SFBCrashReporter error: Unable to delete the submitted crash log (%@): %@", [self.crashLogPath lastPathComponent], [err localizedDescription]);
+
+            // Even though the log wasn't deleted, submission was still successful
+            [self performSelectorOnMainThread: @selector(showSubmissionSucceededSheet) withObject:nil waitUntilDone:NO];
+        } else {
+            NSLog(@"SFBCrashReporter error: Server returned status code: %ld", (long)httpResponse.statusCode);
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Unrecognized response from the server", @""), NSLocalizedDescriptionKey, nil];
+            NSError *err = [NSError errorWithDomain:NSPOSIXErrorDomain code:EPROTO userInfo:userInfo];
+
+            [self performSelectorOnMainThread: @selector(showSubmissionFailedSheet:) withObject:err waitUntilDone:NO];
+        }
+    }];
+
+    [dataTask resume];
 }
 
 - (void)showSubmissionSucceededSheet
@@ -345,76 +378,6 @@
     }
 
     return NO;
-}
-
-#pragma mark NSURLConnection delegate methods
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-
-#pragma unused(connection)
-#pragma unused(response)
-
-	_responseData = [[NSMutableData alloc] init];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-
-#pragma unused(connection)
-
-	[_responseData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-
-#pragma unused(connection)
-
-	// A valid response is simply the string 'ok'
-	NSString *responseString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
-	BOOL responseOK = [responseString isEqualToString:@"ok"];
-
-	_urlConnection = nil;
-	_responseData = nil;
-
-	if(responseOK) {
-		// Create our own instance since this method could be called from a background thread
-		NSFileManager *fileManager = [[NSFileManager alloc] init];
-		
-		// Use the file's modification date as the last submitted crash date
-		NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:self.crashLogPath error:nil];
-		NSDate *fileModificationDate = [fileAttributes fileModificationDate];
-
-		if(fileModificationDate)
-			[[NSUserDefaults standardUserDefaults] setObject:fileModificationDate forKey:@"SFBCrashReporterLastCrashReportDate"];
-
-		// Delete the crash log since it is no longer needed
-		NSError *error = nil;
-		if(![fileManager removeItemAtPath:self.crashLogPath error:&error])
-			NSLog(@"SFBCrashReporter error: Unable to delete the submitted crash log (%@): %@", [self.crashLogPath lastPathComponent], [error localizedDescription]);
-
-		// Even though the log wasn't deleted, submission was still successful
-		[self performSelectorOnMainThread: @selector(showSubmissionSucceededSheet) withObject:nil waitUntilDone:NO];
-	}
-	// An error occurred on the server
-	else {
-		NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Unrecognized response from the server", @""), NSLocalizedDescriptionKey, nil];
-		NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:EPROTO userInfo:userInfo];
-
-		[self performSelectorOnMainThread: @selector(showSubmissionFailedSheet:) withObject:error waitUntilDone:NO];
-	}
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-
-#pragma unused(connection)
-
-	_urlConnection = nil;
-	_responseData = nil;
-
-	[self performSelectorOnMainThread:@selector(showSubmissionFailedSheet:) withObject:error waitUntilDone:NO];
 }
 
 @end
