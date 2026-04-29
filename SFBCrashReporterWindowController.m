@@ -297,6 +297,14 @@
             return;
         }
 
+        if(![response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"SFBCrashReporter error: Received non-HTTP response: %@", NSStringFromClass([response class]));
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Unrecognized response from the server", @""), NSLocalizedDescriptionKey, nil];
+            NSError *err = [NSError errorWithDomain:NSPOSIXErrorDomain code:EPROTO userInfo:userInfo];
+
+            [self performSelectorOnMainThread:@selector(showSubmissionFailedSheet:) withObject:err waitUntilDone:NO];
+            return;
+        }
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if(httpResponse.statusCode == 200) {
             // Create our own instance since this method could be called from a background queue
