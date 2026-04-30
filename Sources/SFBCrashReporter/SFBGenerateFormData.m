@@ -1,12 +1,14 @@
-/*
- * Copyright (C) 2009 - 2020 Stephen F. Booth <me@sbooth.org>
- * See https://github.com/sbooth/SFBCrashReporter/blob/master/LICENSE.txt for license information
- */
+//
+// SPDX-FileCopyrightText: 2009 Stephen F. Booth <contact@sbooth.dev>
+// SPDX-License-Identifier: MIT
+//
+// Part of https://github.com/sbooth/SFBCrashReporter
+//
 
-#import "GenerateFormData.h"
+#import "SFBGenerateFormData.h"
 
 NSData *
-GenerateFormData(NSDictionary *formValues, NSString *boundary)
+SFBGenerateFormData(NSDictionary *formValues, NSString *boundary)
 {
 	NSCParameterAssert(nil != formValues);
 	NSCParameterAssert(nil != boundary);
