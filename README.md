@@ -27,7 +27,7 @@ Adding `SFBCrashReporter` support to your application is easy:
 ```objective-c
 #import <SFBCrashReporter/SFBCrashReporter.h>
 
-- (void) applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Check for and send crash reports
     [SFBCrashReporter checkForNewCrashes];
