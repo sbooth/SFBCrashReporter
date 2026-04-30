@@ -29,13 +29,14 @@ Adding `SFBCrashReporter` support to your application is easy:
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-  // Check for and send crash reports
-  [SFBCrashReporter checkForNewCrashes];
+    // Check for and send crash reports
+    [SFBCrashReporter checkForNewCrashes];
 }
 ```
 
-Adding support to your HTTP server to receive the crash logs is also easy.  `SFBCrashReporter` comes with a PHP script that will e-mail the submitted crash logs to a specified email account.
+## Server Support
+
+Adding support to your HTTP server to receive the crash logs is also easy.  `SFBCrashReporter` comes with an example PHP script that will e-mail the submitted crash logs to a specified email account.
 
 0.  Install PHP!
-
-1.  Modify <tt>handle_crash_report.php</tt> as appropriate.
+1.  Modify [handle_crash_report.php](https://github.com/sbooth/SFBCrashReporter/blob/main/handle_crash_report.php) as appropriate.
