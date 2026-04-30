@@ -1,8 +1,22 @@
-[![Version](https://img.shields.io/cocoapods/v/SFBCrashReporter.svg)](http://cocoadocs.org/docsets/SFBCrashReporter)
-[![Platform](https://img.shields.io/cocoapods/p/SFBCrashReporter.svg)](https://github.com/sbooth/SFBCrashReporter)
-[![License](https://img.shields.io/cocoapods/l/SFBCrashReporter.svg)](COPYING)
+# SFBCrashReporter
+
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsbooth%2FSFBCrashReporter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/sbooth/SFBCrashReporter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsbooth%2FSFBCrashReporter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/sbooth/SFBCrashReporter)
 
 `SFBCrashReporter` is a framework for submitting application crash logs to an HTTP server.
+
+## Installation
+
+### Swift Package Manager
+
+Add a package dependency to https://github.com/sbooth/SFBCrashReporter in Xcode.
+
+### Manual or Custom Build
+
+1. Clone the [SFBCrashReporter](https://github.com/sbooth/SFBCrashReporter) repository.
+2. `swift build`.
+
+## Usage
 
 Adding `SFBCrashReporter` support to your application is easy:
 
