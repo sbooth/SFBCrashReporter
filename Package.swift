@@ -28,6 +28,7 @@ let package = Package(
                 .process("Resources"),
             ],
             linkerSettings: [
+                .linkedFramework("AppKit"),
                 .linkedFramework("Contacts"),
             ]),
         .testTarget(
