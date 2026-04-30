@@ -24,6 +24,9 @@ let package = Package(
     targets: [
         .target(
             name: "SFBCrashReporter",
+            resources: [
+                .process("Resources"),
+            ],
             linkerSettings: [
                 .linkedFramework("Contacts"),
             ]),
