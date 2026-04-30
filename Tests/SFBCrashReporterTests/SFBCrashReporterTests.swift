@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import SFBCrashReporter
+@testable import SFBCrashReporter
 
 final class SFBCrashReporterTests: XCTestCase {
 }
