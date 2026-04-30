@@ -1,11 +1,14 @@
-/*
- * Copyright (C) 2009 - 2020 Stephen F. Booth <me@sbooth.org>
- * See https://github.com/sbooth/SFBCrashReporter/blob/master/LICENSE.txt for license information
- */
+//
+// SPDX-FileCopyrightText: 2009 Stephen F. Booth <contact@sbooth.dev>
+// SPDX-License-Identifier: MIT
+//
+// Part of https://github.com/sbooth/SFBCrashReporter
+//
 
 #import "SFBCrashReporterWindowController.h"
+
+#import "SFBGenerateFormData.h"
 #import "SFBSystemInformation.h"
-#import "GenerateFormData.h"
 
 #import <Contacts/Contacts.h>
 
@@ -265,7 +268,7 @@
 
 	// Generate the form data
 	NSString *boundary = @"81e29ba4f957efe5916039f587fe3ed7";
-	NSData *formData = GenerateFormData(formValues, boundary);
+	NSData *formData = SFBGenerateFormData(formValues, boundary);
 	
 	// Set up the HTTP request
 	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:self.submissionURL];
