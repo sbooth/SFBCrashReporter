@@ -5,7 +5,7 @@
 // Part of https://github.com/sbooth/SFBCrashReporter
 //
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 
 /*! @brief Utility class for accessing useful system information */
 @interface SFBSystemInformation : NSObject

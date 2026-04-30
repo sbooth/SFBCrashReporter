@@ -7,7 +7,7 @@
 
 #pragma once
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 
 // ========================================
 // Generates multipart/form-data from the given dictionary using the specified boundary

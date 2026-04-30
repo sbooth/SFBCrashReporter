@@ -11,7 +11,7 @@
 #include <sys/sysctl.h>
 
 // ========================================
-// Utility functions for common sysctl to AppKit tasks
+// Utility functions for common sysctl to Foundation tasks
 // ========================================
 static NSString * stringForMIB(int *mib, u_int mib_length, NSError **error)
 {

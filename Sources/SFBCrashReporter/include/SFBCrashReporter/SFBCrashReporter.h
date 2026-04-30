@@ -5,7 +5,7 @@
 // Part of https://github.com/sbooth/SFBCrashReporter
 //
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 
 /*! @brief The interface for crash reporting */
 @interface SFBCrashReporter : NSObject
